@@ -1,0 +1,164 @@
+---
+title: "Pooling"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Our data set and MICE Imputation
+
+chdbirths <- read.csv("C:/My data/university/third year/stat331/final_proj/male_births/chds_births.csv")
+
+
+# Pairs plots, adjust which variables you want in it
+# pairs(chdbirths[,c(1,2,3,4,5,6)],pch=16, cex=.3)
+# pairs(chdbirths[,c(1,7,8,9,10,11)],pch=16, cex=.3)
+# pairs(chdbirths[,c(1,12,13,14,15)],pch=16, cex=.3)
+# pairs(chdbirths[,c(1,16,17,18)],pch=16, cex=.3)
+# 
+# table(chdbirths$smoke,chdbirths$med)
+
+
+# Re-coding the data into factor variables
+#Ethnicity
+chdbirths$meth[chdbirths$meth %in% c(0,1,2,3,4,5)] <- "Caucasian"
+chdbirths$meth[chdbirths$meth == 6] <- "Mexican"
+chdbirths$meth[chdbirths$meth == 7] <- "AA"
+chdbirths$meth[chdbirths$meth == 8] <- "Asian"
+chdbirths$meth[chdbirths$meth == 9] <- "Mixed"
+chdbirths$meth[chdbirths$meth == 10] <- "Other"
+
+chdbirths$feth[chdbirths$feth %in% c(0,1,2,3,4,5)] <- "Caucasian"
+chdbirths$feth[chdbirths$feth == 6] <- "Mexican"
+chdbirths$feth[chdbirths$feth == 7] <- "AA"
+chdbirths$feth[chdbirths$feth == 8] <- "Asian"
+chdbirths$feth[chdbirths$feth == 9] <- "Mixed"
+chdbirths$feth[chdbirths$feth == 10] <- "Other"
+
+# Education
+chdbirths$med[chdbirths$med == 0] <- "elem"
+chdbirths$med[chdbirths$med == 1] <- "mid"
+chdbirths$med[chdbirths$med == 2] <- "hs"
+chdbirths$med[chdbirths$med == 3] <- "hs+trade"
+chdbirths$med[chdbirths$med == 4] <- "hs+some+col"
+chdbirths$med[chdbirths$med == 5] <- "col"
+chdbirths$med[chdbirths$med == 6] <- "trade"
+chdbirths$med[chdbirths$med == 7] <- "hs+unclear"
+
+chdbirths$fed[chdbirths$fed == 0] <- "elem"
+chdbirths$fed[chdbirths$fed == 1] <- "mid"
+chdbirths$fed[chdbirths$fed == 2] <- "hs"
+chdbirths$fed[chdbirths$fed == 3] <- "hs+trade"
+chdbirths$fed[chdbirths$fed == 4] <- "hs+some+col"
+chdbirths$fed[chdbirths$fed == 5] <- "col"
+chdbirths$fed[chdbirths$fed == 6] <- "trade"
+chdbirths$fed[chdbirths$fed == 7] <- "hs+unclear"
+
+
+
+# Marital Status
+chdbirths$marital[chdbirths$marital == 1] <- "married"
+chdbirths$marital[chdbirths$marital %in% c(0,2,3,4)] <- "other"
+chdbirths$marital[chdbirths$marital == 5] <- "nvr+married"
+
+# Smoke
+chdbirths$smoke[chdbirths$smoke == 0] <- "never"
+chdbirths$smoke[chdbirths$smoke == 1] <- "smokesnow"
+chdbirths$smoke[chdbirths$smoke == 2] <- "untilpreg"
+chdbirths$smoke[chdbirths$smoke == 3] <- "usedto"
+
+# Time since quitting smoking
+# chdbirths$time[chdbirths$time == 0] <- "never"
+# chdbirths$time[chdbirths$time == 1] <- "smokesnow"
+# chdbirths$time[chdbirths$time == 2] <- "duringpreg"
+# chdbirths$time[chdbirths$time == 3] <- "<1yr"
+# chdbirths$time[chdbirths$time == 4] <- "1-2yrs"
+# chdbirths$time[chdbirths$time == 5] <- "2-3yrs"
+# chdbirths$time[chdbirths$time == 6] <- "3-4yrs"
+# chdbirths$time[chdbirths$time == 7] <- "5-9yrs"
+# chdbirths$time[chdbirths$time == 8] <- ">10yrs"
+# chdbirths$time[chdbirths$time == 9] <- "don't+know"
+
+
+chdbirths$time[chdbirths$time == 1] <- 8
+chdbirths$time[chdbirths$time == 2] <- 7
+chdbirths$time[chdbirths$time == 3] <- 6
+chdbirths$time[chdbirths$time == 4] <- 5
+chdbirths$time[chdbirths$time == 5] <- 4
+chdbirths$time[chdbirths$time == 6] <- 3
+chdbirths$time[chdbirths$time == 7] <- 2
+chdbirths$time[chdbirths$time == 8] <- 1
+chdbirths$time[chdbirths$time == 9] <- NA # only 5 observations, will be deleted 
+
+
+# Dropping father height and weight since so many NA's 
+drops <- c("fwt","fht")
+births <- chdbirths[,!(names(chdbirths) %in% drops)]
+
+
+# Don't run imputation on categorical variables 
+birthsComp <- births[complete.cases(births$meth,births$med,births$feth,
+                      births$fed,births$smoke),]
+
+
+# Runnign MICE, m=5 imputations
+imp_all <- mice(birthsComp,m=5)
+
+# Our final selected  top 3 models:
+
+## STEPWISE
+Ms5 <-lm(formula = wt ~ gestation + parity + mht + mwt + feth + marital + 
+     income + smoke + time + number + gestation:income + gestation:number + 
+     parity:marital + mht:marital + mwt:income + time:number + 
+     gestation:mwt + gestation:parity + parity:mht, data = complete(imp_all,5))
+
+fit.step <- with(data=imp_all, exp = lm(wt ~ gestation + parity + mht + mwt + feth + marital + 
+     income + smoke + time + number + gestation:income + gestation:number + 
+     parity:marital + mht:marital + mwt:income + time:number + 
+     gestation:mwt + gestation:parity + parity:mht))
+
+combFit.step <- pool(fit.step)
+summary(combFit.step)
+pool.r.squared(fit.step)
+
+Mb2 <- lm(formula = wt ~ gestation + parity + mht + mwt + fage + marital + 
+     income + smoke + time + number + feth + gestation:mht + gestation:mwt + 
+     gestation:fage + gestation:income + gestation:number + parity:mht + 
+     parity:marital + mht:fage + mht:marital + mht:income + mwt:income + 
+     fage:smoke + fage:number + income:number + time:number, data = complete(imp_all,2))
+
+
+fit.back <- with(data=imp_all, exp = lm(wt ~ gestation + parity + mht + mwt + fage + marital + 
+     income + smoke + time + number + feth + gestation:mht + gestation:mwt + 
+     gestation:fage + gestation:income + gestation:number + parity:mht + 
+     parity:marital + mht:fage + mht:marital + mht:income + mwt:income + 
+     fage:smoke + fage:number + income:number + time:number))
+
+combFit.back <- pool(fit.back)
+summary(combFit.back)
+pool.r.squared(fit.back)
+
+
+Mf5 <- lm(formula = wt ~ gestation + smoke + mht + feth + parity + number + 
+            mwt + time + income + gestation:smoke + gestation:number + 
+            gestation:mwt + gestation:time + gestation:mht + parity:mwt + 
+            gestation:income, data = complete(imp_all,5))
+
+fit.fwd <- with(data=imp_all, exp = lm(wt ~ gestation + smoke + mht + feth + parity + number + 
+            mwt + time + income + gestation:smoke + gestation:number + 
+            gestation:mwt + gestation:time + gestation:mht + parity:mwt + 
+            gestation:income))
+
+combFit.fwd <- pool(fit.fwd)
+summary(combFit.fwd)
+pool.r.squared(fit.fwd)
+
+```
+
+```{r}
+
+
+```

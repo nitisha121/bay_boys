@@ -1,0 +1,314 @@
+---
+title: "Appendix"
+author: "Nitisha Agarwal & Maya Perelman"
+date: "December 3, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Appendix  for R Code
+
+```{r}
+
+# Creating pairs plots, adjusting which variables we want in it
+pairs(chdbirths[,c(1,2,3,14,8)],pch=16, cex=.3, col=adjustcolor("black",0.5))
+
+# Create histogram of birthweight to view distribution
+hist(chdbirths$wt,freq=FALSE, breaks="FD", col="gray90",
+     xlab = "Healthy Male Birth Weight", main = "Histogram of Birth Weight")
+# Overlay Gaussian approximation
+curve(dnorm(x,mean=mean(chdbirths$wt),sd=sd(chdbirths$wt)),col="red",add=TRUE)
+
+
+## Re-coding the data that doesn't make sense ordinally into categorical variables
+
+# Mother and father ethnicity
+births$meth[chdbirths$meth %in% c(0,1,2,3,4,5)] <- "Caucasian"
+births$meth[chdbirths$meth == 6] <- "Mexican"
+births$meth[chdbirths$meth == 7] <- "AA"
+births$meth[chdbirths$meth == 8] <- "Asian"
+births$meth[chdbirths$meth %in% c(9,10)] <- "Other" # grouping in Mixed 
+
+births$feth[chdbirths$feth %in% c(0,1,2,3,4,5)] <- "Caucasian"
+births$feth[chdbirths$feth == 6] <- "Mexican"
+births$feth[chdbirths$feth == 7] <- "AA"
+births$feth[chdbirths$feth == 8] <- "Asian"
+births$feth[chdbirths$feth %in% c(9,10)] <- "Other" # grouping in Mixed 
+
+# Mother and father education
+births$med[chdbirths$med == 0] <- "elem"
+births$med[chdbirths$med == 1] <- "mid"
+births$med[chdbirths$med == 2] <- "hs"
+births$med[chdbirths$med == 3] <- "hs+trade"
+births$med[chdbirths$med == 4] <- "hs+some+col"
+births$med[chdbirths$med == 5] <- "col"
+births$med[chdbirths$med == 6] <- "trade"
+births$med[chdbirths$med == 7] <- "hs+unclear"
+
+births$fed[chdbirths$fed == 0] <- "elem"
+births$fed[chdbirths$fed == 1] <- "mid"
+births$fed[chdbirths$fed == 2] <- "hs"
+births$fed[chdbirths$fed == 3] <- "hs+trade"
+births$fed[chdbirths$fed == 4] <- "hs+some+col"
+births$fed[chdbirths$fed == 5] <- "col"
+births$fed[chdbirths$fed == 6] <- "trade"
+births$fed[chdbirths$fed == 7] <- "hs+unclear"
+
+# Marital Status
+births$marital[chdbirths$marital == 1] <- "married"
+# Grouping all other types because vast majority of obs. are married
+births$marital[chdbirths$marital %in% c(0,2,3,4,5)] <- "other"
+
+# Smoke
+births$smoke[chdbirths$smoke == 0] <- "never"
+births$smoke[chdbirths$smoke == 1] <- "smokesnow"
+births$smoke[chdbirths$smoke == 2] <- "untilpreg"
+births$smoke[chdbirths$smoke == 3] <- "usedto"
+
+#Time, keep ordinal but change to more sensible order
+births$time[chdbirths$time == 1] <- 8
+births$time[chdbirths$time == 2] <- 7
+births$time[chdbirths$time == 3] <- 6
+births$time[chdbirths$time == 4] <- 5
+births$time[chdbirths$time == 5] <- 4
+births$time[chdbirths$time == 6] <- 3
+births$time[chdbirths$time == 7] <- 2
+births$time[chdbirths$time == 8] <- 1
+births$time[chdbirths$time == 9] <- NA # only 5 observations, will be deleted
+
+##
+
+
+# Counting NA's in each variate
+NAcount <- sapply(chdbirths, function(x) sum(is.na(x)))
+
+# Dropping father height and weight since so many NA's 
+drops <- c("fwt","fht")
+births <- births[,!(names(births) %in% drops)]
+
+# Using Amelia R package, display a graph of proportion of missing vals
+missmap(births, col=c("yellow","midnightblue"),y.labels="",y.at="")
+
+# Displaying differences between observations and imputed data
+densityplot(imp_all) 
+
+
+# Stepwise Model Selection
+for (i in 1:5){ # run through each imputation mice returns 
+  compldata <- complete(imp_all,i) # Completing data set over each imputation
+  M0 <- lm(wt~1,data=compldata) # minimal model: intercept only
+  
+  # all main effects and interactions
+  ##  Removed feth, meth, fed, med interactions because they produced NA's
+  Mmax <- lm(wt ~ (.-feth - meth - fed - med)^2 + feth + meth + fed + med,data=compldata)
+  Mstart <-lm(wt ~., data = compldata) # starting model for stepwise
+  Mstep <- step(object= Mstart,
+              scope=list(lower=M0, upper = Mmax),
+              direction ="both", # stepwise direction 
+              trace=FALSE)
+  model <- paste("Ms",i, sep="") # dynamically name models with corresponding index
+  assign(model,Mstep)
+}
+
+# Forward Model Selection
+for (i in 1:5){ # run through each imputation mice returns 
+  compldata <- complete(imp_all,i) # Completing data set over each imputation
+  Mfwd <- step(object = M0,
+              scope=list(lower=M0, upper = Mmax),
+              direction ="forward", # forward direction 
+              trace=FALSE)
+  model <- paste("Mf",i, sep="") # dynamically name models with corresponding index
+  assign(model,Mfwd)
+}
+
+# Backwards Model Selection
+for (i in 1:5){ # run through each imputation mice returns
+  compldata <- complete(imp_all,i) # Completing data set over each imputation
+  Mback <- step(object = Mmax,
+              scope=list(lower=M0, upper = Mmax),
+              direction ="backward", # backwards direction 
+              trace=FALSE)
+  model <- paste("Mb",i, sep="") # dynamically name models with corresponding index
+  assign(model,Mback)
+}
+
+# Calculate PRESS statistic for each of the 5 stepwise models, similar code for forward/backward
+pressc1 <- sum((resid(Ms1)/(1-hatvalues(Ms1)))^2)
+pressc2 <- sum((resid(Ms2)/(1-hatvalues(Ms2)))^2)
+pressc3 <- sum((resid(Ms3)/(1-hatvalues(Ms3)))^2)
+pressc4 <- sum((resid(Ms4)/(1-hatvalues(Ms4)))^2)
+pressc5 <- sum((resid(Ms5)/(1-hatvalues(Ms5)))^2)
+
+
+# Stepwise models summary of AIC, RSE, and PRESS statistic, similar code for forward/backward
+step.matrix <- matrix(0, 3, 5) # initial matrix 
+rownames(step.matrix) <- c("AIC", "RSE", "PRESS")
+colnames(step.matrix) <- c("Ms1", "Ms2", "Ms3", "Ms4", "Ms5")
+
+# Create vectors of AIC, RSE, PRESS for each model
+aic.s <- round(c(AIC(Ms1), AIC(Ms2), AIC(Ms3), AIC(Ms4), AIC(Ms5)),2)
+rse.s <- round(c(sigma(Ms1), sigma(Ms2), sigma(Ms3), sigma(Ms4), sigma(Ms5)),2)
+press.s <- round(c(pressc1, pressc2, pressc3, pressc4, pressc5),2)
+# Update matrix
+step.matrix[1,] <- aic.s
+step.matrix[2,] <- rse.s
+step.matrix[3,] <- press.s
+
+## UPDATE
+
+# Fit stepwise model to imputations returned by mice 
+fit.step <- with(data=imp_all, exp = lm(formula = wt ~ gestation + parity + 
+    mht + mwt + feth + marital + income + smoke + time + number + gestation:income +
+    gestation:number + parity:marital + mwt:income + mht:marital + parity:mht + 
+    gestation:mwt + gestation:parity + time:number + parity:income, data = complete(imp_all)))
+
+
+# Fit forward model to imputations returned by mice 
+fit.fwd <- with(data=imp_all, exp = lm(formula = wt ~ gestation + smoke + mht + feth +
+    parity + number + mwt + time + gestation:smoke + gestation:number + gestation:time + 
+    mht:parity + gestation:mwt + gestation:mht, data = compldata))
+
+
+# Compare stepwise and forward models with Cross Validation
+nreps <- 1000 # number of replications
+ntot <- nrow(birthsCompl) # total number of observations
+ntrain <- 0.8*ntot # size of training set is 80% of total 
+ntest <- ntot - ntrain # size of test set is 20% of total 
+mspe1 <- rep(NA, nreps) # sum-of-square errors for each CV replication
+mspe2 <- rep(NA, nreps)
+
+logLambda <- rep(NA, nreps) # log-likelihod ratio statistic for each replication
+m <-5 # number of imputations
+ 
+
+for (ii in 1:nreps) {
+  # randomly select training observations
+  sample.ind <- sample(m,1) # randomly select which imputed data set to use
+  M1.model <- fit.fwd$analyses[[sample.ind]]
+  M2.model <- fit.step$analyses[[sample.ind]]
+  train.ind <- sample(ntot, ntrain) # training observations
+  # refit the models on the given imputed data and training indices 
+  data_complete <- complete(imp_all,sample.ind)
+  M1.cv <- update(M1.model, data = data_complete[train.ind,])
+  M2.cv <- update(M2.model, data = data_complete[train.ind,])
+  # out-of-sample residuals for both models
+  # that is, testing data - predictions with training parameters
+  M1.res <- data_complete$wt[-train.ind] -
+    predict(M1.cv, newdata = data_complete[-train.ind, ])
+  M2.res <- data_complete$wt[-train.ind] -
+    predict(M2.cv, newdata = data_complete[-train.ind, ])
+  # mean-square prediction errors
+  mspe1[ii] <- mean(M1.res ^ 2)
+  mspe2[ii] <- mean(M2.res ^ 2)
+  # out-of-sample likelihood ratio
+  M1.sigma <- sqrt(sum(resid(M1.cv) ^ 2) / ntrain) # MLE of sigma
+  M2.sigma <- sqrt(sum(resid(M2.cv) ^ 2) / ntrain)
+  # since res = y - pred, dnorm(y, pred, sd) = dnorm(res, 0, sd)
+  logLambda[ii] <-
+    sum(dnorm(
+      M1.res,
+      mean = 0,
+      sd = M1.sigma,
+      log = TRUE
+    ))
+  logLambda[ii] <- logLambda[ii] -
+    sum(dnorm(
+      M2.res,
+      mean = 0,
+      sd = M2.sigma,
+      log = TRUE
+    ))
+}
+
+# names of x axis for boxplot 
+Mnames <- expression(M[FWD],M[STEP])
+
+# Create boxplot
+par(mfrow=c(1,2))
+boxplot(list(sqrt(mspe1),sqrt(mspe2)), names = Mnames, ylab = expression(sqrt(MSPE)), cex = 0.7, col= c("springgreen4","skyblue"), cex.axis = 0.7, main = "RMSPE")
+
+# logLambda histgram
+hist(logLambda, breaks = 30, freq = FALSE, xlab = expression(Lambda^{test}), cex=0.7,
+     main = "log of Lambda", col="gray93", cex.axis = 0.7)
+abline(v=mean(logLambda),col="red",lwd=2)
+
+
+# Model diagnostics 
+
+im <- 5 # let's just look at 5th imputation for both models
+
+# Residuals for stepwise model
+res.s <- resid(fit.step$analyses[[im]])
+h.s <- hatvalues(fit.step$analyses[[im]])
+res.stu.s <- res.s/sqrt(1-h.s) # studentized residuals
+
+# Residuals for forward model
+res.f <- resid(fit.fwd$analyses[[im]])
+h.f <- hatvalues(fit.fwd$analyses[[im]])
+res.stu.f <- res.f/sqrt(1-h.f) # studentized residuals
+
+# Plotting residual plots for stepwise model, similar code for forwards model
+par(mfrow=c(2,2))
+plot(fit.step$analyses[[im]],cex=0.6,col=adjustcolor("skyblue4",0.5),
+     cex.axis=0.7, pch=16)
+
+# Plotting standardized residuals to see distribution, similar code for forwards model
+par(mfrow=c(1,2))
+sigma.hat.s <- sigma(fit.step$ana[[im]]) # pull RSE of 5th imputation
+
+# Stepwise model studentized residual histogram
+hist(res.stu.s/sigma.hat.s,breaks=40,freq=FALSE,cex.axis=0.8, 
+     main = "Stepwise Model", xlab= "Studentized Residuals, standardized")
+curve(dnorm(x),col="red",add=TRUE) # normal dist overlay
+
+# Create influence vs. leverage plot with each model on the same graph
+# Calculate measures of influence - Cook's distance for each model
+D.step <- cooks.distance(fit.step$analyses[[im]])
+D.fwd <- cooks.distance(fit.fwd$analyses[[im]])
+# Calculate diagonals of hat matrix to get leverage measures for each model
+h.step <- hatvalues(fit.step$analyses[[im]])
+h.fwd <- hatvalues(fit.fwd$analyses[[im]])
+
+
+## UPDATE 
+
+inf <- which.is.max(D.step) # pull index of highest influence observation 
+lev <- subset(h.step, h.step > 0.4) # pull index of highest leverage observation 
+
+inf.ind <- as.numeric(names(inf)) # take out?
+
+lev.ind <- as.numeric(names(lev)) # take out?
+
+# Create scatterplot
+# First add red points for stepwise model
+plot(h.step,D.step, col=adjustcolor("firebrick",0.5), pch=16, 
+     main = "Influence vs. Leverage Plot", xlab = "Leverage", 
+     ylab= "Influence (Cook's Distance)", cex.axis=0.8)
+# Now add blue points for forwards model
+points(h.fwd,D.fwd,col=adjustcolor("navyblue",0.5),pch=18)
+# Throw in a legend 
+legend("topright", legend = c("Stepwise", "Forward"), pch = c(16,18),
+       col = c("firebrick","navyblue"))
+# Label highest influence point
+text(x=h.step[inf.ind], y = D.step[as.numeric(names(inf))],
+     labels = inf.ind, pos=1, cex = 0.7, offs=0.4)
+# Label highest leverage point
+text(x=h.step[lev.ind], y = D.step[as.numeric(names(lev))],
+     labels = lev.ind, pos=c(1,1,1), cex = 0.7, offs=0.4)
+
+# Pulling out highest influence point observation to take a look at 
+complete(imp_all,5)[inf.ind,]
+
+# Pulling out highest leverage points observation to take a look at 
+complete(imp_all,5)[lev.ind,]
+
+```
+
+
+
+
+
+

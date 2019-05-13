@@ -1,0 +1,388 @@
+---
+title: "final_proj_exploration"
+author: "Nitisha Agarwal"
+date: "November 28, 2018"
+output: html_document
+---
+
+Setup:
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Read in data:
+```{r}
+chdbirths <- read.csv("C:/My data/university/third year/stat331/final_proj/male_births/chds_births.csv")
+
+# load mice
+library(mice)
+library(styler)
+```
+
+Pre-fitting stuff:
+```{r}
+
+#avg birth weight for smoke == 0 
+
+#avg birth weight for smoke == 1
+plot(mean(chdbirths$wt))
+pairs(chdbirths[,c(1,16, 17, 18)],pch=16, cex=.3)
+```
+
+
+```{r}
+# Pairs plots, adjust which variables you want in it
+
+wt0 <- mean(chdbirths$wt[chdbirths$smoke == 0]) 
+wt0 <- mean(chdbirths$wt[chdbirths$smoke == 0]) 
+wt0 <- mean(chdbirths$wt[chdbirths$smoke == 0]) 
+wt0 <- mean(chdbirths$wt[chdbirths$smoke == 0]) 
+pairs(chdbirths[,c(1,2,3,4,5,6)],pch=16, cex=.3)
+pairs(chdbirths[,c(1,7,8,9,10,11)],pch=16, cex=.3)
+pairs(chdbirths[,c(1,12,13,14,15)],pch=16, cex=.3)
+pairs(chdbirths[,c(1,16,17,18)],pch=16, cex=.3)
+
+# create tables 
+table(chdbirths$smoke)
+table(chdbirths$income, chdbirths$med)
+
+```
+
+Re-coding the data into factor variables:
+```{r}
+
+#Ethnicity
+chdbirths$meth[chdbirths$meth %in% c(0,1,2,3,4,5)] <- "Caucasian"
+chdbirths$meth[chdbirths$meth == 6] <- "Mexican"
+chdbirths$meth[chdbirths$meth == 7] <- "AA"
+chdbirths$meth[chdbirths$meth == 8] <- "Asian"
+chdbirths$meth[chdbirths$meth %in% c(9, 10)] <- "Other"
+
+chdbirths$feth[chdbirths$feth %in% c(0,1,2,3,4,5)] <- "Caucasian"
+chdbirths$feth[chdbirths$feth == 6] <- "Mexican"
+chdbirths$feth[chdbirths$feth == 7] <- "AA"
+chdbirths$feth[chdbirths$feth == 8] <- "Asian"
+chdbirths$feth[chdbirths$feth %in% c(9, 10)] <- "Other"
+
+# Education
+chdbirths$med[chdbirths$med == 0] <- "elem"
+chdbirths$med[chdbirths$med == 1] <- "mid"
+chdbirths$med[chdbirths$med == 2] <- "hs"
+chdbirths$med[chdbirths$med == 3] <- "hs+trade"
+chdbirths$med[chdbirths$med == 4] <- "hs+some+col"
+chdbirths$med[chdbirths$med == 5] <- "col"
+chdbirths$med[chdbirths$med == 6] <- "trade"
+chdbirths$med[chdbirths$med == 7] <- "hs+unclear"
+
+chdbirths$fed[chdbirths$fed == 0] <- "elem"
+chdbirths$fed[chdbirths$fed == 1] <- "mid"
+chdbirths$fed[chdbirths$fed == 2] <- "hs"
+chdbirths$fed[chdbirths$fed == 3] <- "hs+trade"
+chdbirths$fed[chdbirths$fed == 4] <- "hs+some+col"
+chdbirths$fed[chdbirths$fed == 5] <- "col"
+chdbirths$fed[chdbirths$fed == 6] <- "trade"
+chdbirths$fed[chdbirths$fed == 7] <- "hs+unclear"
+
+# Marital Status
+chdbirths$marital[chdbirths$marital == 1] <- "married"
+chdbirths$marital[chdbirths$marital %in% c(0,2,3,4)] <- "other"
+chdbirths$marital[chdbirths$marital == 5] <- "nvr+married"
+
+# Smoke
+chdbirths$smoke[chdbirths$smoke == 0] <- "never"
+chdbirths$smoke[chdbirths$smoke == 1] <- "smokesnow"
+chdbirths$smoke[chdbirths$smoke == 2] <- "untilpreg"
+chdbirths$smoke[chdbirths$smoke == 3] <- "usedto"
+
+# Time since quitting smoking
+# chdbirths$time[chdbirths$time == 0] <- "never"
+# chdbirths$time[chdbirths$time == 1] <- "smokesnow"
+# chdbirths$time[chdbirths$time == 2] <- "duringpreg"
+# chdbirths$time[chdbirths$time == 3] <- "<1yr"
+# chdbirths$time[chdbirths$time == 4] <- "1-2yrs"
+# chdbirths$time[chdbirths$time == 5] <- "2-3yrs"
+# chdbirths$time[chdbirths$time == 6] <- "3-4yrs"
+# chdbirths$time[chdbirths$time == 7] <- "5-9yrs"
+# chdbirths$time[chdbirths$time == 8] <- ">10yrs"
+# chdbirths$time[chdbirths$time == 9] <- "don't+know"
+
+# reordering time quitting 
+chdbirths$time[chdbirths$time == 1] <- 8
+chdbirths$time[chdbirths$time == 2] <- 7
+chdbirths$time[chdbirths$time == 3] <- 6
+chdbirths$time[chdbirths$time == 4] <- 5
+chdbirths$time[chdbirths$time == 5] <- 4
+chdbirths$time[chdbirths$time == 6] <- 3
+chdbirths$time[chdbirths$time == 7] <- 2
+chdbirths$time[chdbirths$time == 8] <- 1
+chdbirths$time[chdbirths$time == 9] <- NA # only 5 observations, will be deleted 
+
+# Number of cigs smoked
+# chdbirths$number[chdbirths$number == 0] <- "never"
+# chdbirths$number[chdbirths$number == 1] <- "1-4cigs"
+# chdbirths$number[chdbirths$number == 2] <- "5-9cigs"
+# chdbirths$number[chdbirths$number %in% c(3,4)] <- "10-19cigs"
+# chdbirths$number[chdbirths$number == 5] <- "20-29cigs"
+# chdbirths$number[chdbirths$number %in% c(6,7,8)] <- ">30cigs"
+# chdbirths$number[chdbirths$number == 9] <- "don't+know+cigs"
+
+# Pack years 
+chdbirths$packyears <- chdbirths$time * chdbirths$number
+```
+
+Peek at data:
+```{r}
+head(chdbirths)
+summary(chdbirths)
+```
+
+View NAs in data: 
+```{r}
+
+NAcount <- sapply(births, function(x) sum(is.na(x)))
+NAcount
+
+
+# WITH MICE 
+
+md.pattern(chdbirths)
+
+# marginplot(chdbirths[c("income","wt")],pch=20,
+#            col=c("skyblue","firebrick","blue","pink","skyblue"),
+#            alpha=0.5)
+```
+
+
+First of all, let's drop father height and weight because we have 10% + NAs:
+```{r}
+
+# Dropping father height and weight since so many NA's 
+drops <- c("fwt","fht")
+births <- chdbirths[,!(names(chdbirths) %in% drops)]
+
+```
+
+Remove all rows with NAs;
+```{r}
+
+#remove rows with NAs for specified cols 
+birthsCompl <- births[complete.cases(births$meth,births$mage,births$med,births$feth,
+                      births$fage,births$fed,births$smoke,births$time,births$number),]
+
+#birthsCompl$mbmi <- birthsCompl$mwt / birthsCompl$mht
+```
+
+
+Now use mice to impute missing values for the rest of the NAs:
+```{r}
+
+# imp1 <- complete(imp,1)
+# imp2 <- complete(imp,2)
+# imp3 <- complete(imp,3)
+#imp4 <- complete(imp,4)
+# summary(imp1)
+imp <- mice(birthsCompl,m=7)
+#imp_all <- mice(births) # default imputation cycles = 5
+
+#stripplot(imp, pch=c(1,20))
+
+# To detect interesting differences between observed and imputed data:
+densityplot(imp)
+
+```
+
+Stepwise model selection:
+```{r}
+
+#Cycle through mice default m=5 imputations 
+for (i in 4:7){
+  compldata <- complete(imp,i)
+  M0 <- lm(wt~1,data=compldata)
+  Mmax <- lm(wt ~ (.-feth - meth - fed - med)^2 + feth + meth + fed + med,data=compldata)
+  Mstart <-lm(wt ~., data = compldata)
+  system.time({
+  Mstep <- step(object = Mstart,
+              scope=list(lower=M0, upper = Mmax),
+              direction ="both",
+              trace=FALSE)
+})
+  print(summary(Mstep))
+}
+```
+
+Forward selection:
+```{r}
+
+#Cycle through mice default m=5 imputations 
+for (i in 1:5){
+  compldata <- complete(imp,i)
+  M0 <- lm(wt~1,data=compldata)
+  Mmax <- lm(wt ~ (.-feth - meth - fed - med)^2 + feth + meth + fed + med,data=compldata)
+  Mstart <-lm(wt ~., data = compldata)
+  system.time({
+  Mwf <- step(object = M0,
+              scope=list(lower=M0, upper = Mmax),
+              direction ="forward",
+              trace=FALSE)
+})
+  print(summary(Mwf))
+}
+
+```
+
+
+Manual Tweaking / Selection:
+```{r}
+
+# Manual formula entry:
+
+for (i in 1:5){
+  compldata <- complete(imp,i)
+  M0 <- lm(wt~1,data=compldata)
+  Mmax <- lm(wt ~ (.-feth - meth - fed - med)^2 + feth + meth + fed + med,data=compldata)
+  Mstart <-lm(wt ~ parity + meth + mage + mht + mwt + 
+    income + smoke + time + number + gestation:number + smoke:time + 
+    gestation:mage + mwt:income + gestation:mwt + gestation:mht + 
+    parity:mwt + mht:income + mage:income + gestation:med + med:income, data = compldata)
+  system.time({
+  
+    # play with interactions and covariates in this formula
+  Mman <- lm(formula = wt ~ parity + meth + mage + mht + mwt + 
+    income + smoke + time + number + gestation:number + smoke:time + 
+    gestation:mage + mwt:income + gestation:mwt + gestation:mht + 
+    parity:mwt + mht:income + mage:income + gestation:med + med:income, data = compldata)
+})
+  print(summary(Mman))
+}
+
+```
+
+Extra:
+```{r}
+# initial model
+M0 <- lm(wt~1,data=imp4)
+
+# maximal model, with all interactions
+Mmax_0 <- lm(wt ~ (.)^2,data=imp4)
+beta.max <- coef(Mmax)
+
+# We can see that feth and meth have many NA's for interactions
+names(beta.max)[is.na(beta.max)]
+
+
+# removing interaction terms for categorical variables with many levels
+Mmax <- lm(wt ~ (.-feth - meth - fed - med)^2 + feth + meth + fed + med,data=imp4)
+
+Mstart <-lm(wt ~., data = imp4) # starting model for stepwise selection
+
+system.time({
+  Mwf <- step(object = M0,
+              scope=list(lower=M0, upper = Mmax),
+              direction ="forward",
+              trace=FALSE)
+})
+summary(Mwf)
+
+
+# system.time({
+#   Mback <- step(object = Mmax,
+#               scope=list(lower=M0, upper = Mmax),
+#               direction ="backward",
+#               trace=FALSE)
+# })
+# summary(Mback)
+
+system.time({
+  Mstep <- step(object = Mstart,
+              scope=list(lower=M0, upper = Mmax),
+              direction ="both",
+              trace=FALSE)
+})
+summary(Mstep)
+
+```
+
+```{r}
+
+fit.mi4 <- with(data=imp, 
+                exp = lm(formula = wt ~ gestation + parity + mage + mht + mwt + feth + 
+                           marital + income + smoke + time + number + gestation:number + 
+                           gestation:income + parity:marital + mht:marital + gestation:mage + 
+                           parity:mht + time:number + gestation:mwt + mage:mht))
+combFit <- pool(fit.mi4)
+round(summary(combFit),2)
+
+pool.r.squared(fit.mi4)
+```
+
+Cross validation code:
+```{r}
+
+# models to compare
+M1 <- Mfwd
+M2 <- Mstep
+Mnames <- expression(M[FWD], M[STEP])
+
+# Cross-validation setup
+
+nreps <- 1e3 # number of replications
+
+ntot <- nrow(births) # total number of observations
+
+ntrain <- 0.8*ntot # size of training set is 80% of total 
+
+ntest <- ntot - ntrain # size of test set is 20% of total 
+
+mspe1 <- rep(NA, nreps) # sum-of-square errors for each CV replication
+
+mspe2 <- rep(NA, nreps)
+
+logLambda <- rep(NA, nreps) # log-likelihod ratio statistic for each replication
+ 
+system.time({
+  for (ii in 1:nreps) {
+    if (ii %% 400 == 0)
+      message("ii = ", ii)
+    # randomly select training observations
+    train.ind <- sample(ntot, ntrain) # training observations
+    # refit the models on the subset of training data; ?update for details!
+    M1.cv <- update(M1, subset = train.ind)
+    M2.cv <- update(M2, subset = train.ind)
+    # out-of-sample residuals for both models
+    # that is, testing data - predictions with training parameters
+    M1.res <- births$wt[-train.ind] -
+      predict(M1.cv, newdata = births[-train.ind, ])
+    M2.res <- births$wt[-train.ind] -
+      predict(M2.cv, newdata = births[-train.ind, ])
+    # mean-square prediction errors
+    mspe1[ii] <- mean(M1.res ^ 2)
+    mspe2[ii] <- mean(M2.res ^ 2)
+    # out-of-sample likelihood ratio
+    M1.sigma <- sqrt(sum(resid(M1.cv) ^ 2) / ntrain) # MLE of sigma
+    M2.sigma <- sqrt(sum(resid(M2.cv) ^ 2) / ntrain)
+    # since res = y - pred, dnorm(y, pred, sd) = dnorm(res, 0, sd)
+    logLambda[ii] <-
+      sum(dnorm(
+        M1.res,
+        mean = 0,
+        sd = M1.sigma,
+        log = TRUE
+      ))
+    logLambda[ii] <- logLambda[ii] -
+      sum(dnorm(
+        M2.res,
+        mean = 0,
+        sd = M2.sigma,
+        log = TRUE
+      ))
+  }
+})
+
+
+
+```
+
+
+
+
+

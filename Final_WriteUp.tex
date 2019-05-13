@@ -1,0 +1,1059 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={STAT 331 Final Report},
+            pdfauthor={Nitisha Agarwal and Maya Perelman},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{STAT 331 Final Report}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Nitisha Agarwal and Maya Perelman}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{12/1/2018}
+
+
+\begin{document}
+\maketitle
+
+\subsection{I. Summary}\label{i.-summary}
+
+The goal of this report is to explore the determinants of healthy male
+birth weight in a sample population collected from a 1960s CHDS survey
+in San Francisco. The dataset contains 1236 observations of healthy male
+single-fetus births over 18 variates. Multiple linear regression allowed
+connections to be made regarding the independent variablesâ effects on
+the dependent variable of healthy birth weight.
+
+Unsurprisingly, the dataset had missing values and proper treatment of
+these NAs was carried out through a variety of methods, including MICE.
+The complete datasets obtained from imputation led to the development of
+about 15 models. In order to select the best candidate models,
+diagnostics such as cross validation and residual analysis were
+employed.
+
+In the end, the selected model was a modified version of the one
+produced by automatic stepwise selection. During initial model
+diagnostics, it was observed that this model had the lowest residual
+standard errors, AIC, PRESS statistic scores, and the lowest rPMSE
+obtained through cross validation. It was confirmed that the stepwise
+model did not violate any of the assumptions of linear regression. To
+obtain the final model, this stepwise model was tweaked to add and
+remove interactions as deemed necessary.
+
+\subsection{II. Model Selection}\label{ii.-model-selection}
+
+\subsubsection{Pre-Fitting Data
+Diagnostics}\label{pre-fitting-data-diagnostics}
+
+In order to do some initial data exploration, we took a look at pairs
+plots, summary of the data set, and dependant variable distribution. The
+noteworthy points are presented below.
+
+\includegraphics{Final_WriteUp_files/figure-latex/unnamed-chunk-1-1.pdf}
+\(\textbf{Figure 1}\): Pairs plot across select variables.
+
+We can make several observations from Figure 1. The values for gestation
+are very concentrated between 250-300 which is expected for normal human
+gestation period. From the data collected for the marital covariate, we
+see a distinct line at marital = 1 which tells us that a large majority
+of moms are married. We also see that there are 2 observations encoded
+as marital = 0, despite 0 not being an option for marital status. This
+is a consideration that we addressed when re-coding our data. Moreover,
+we notice that high values of parity (\textgreater{}4) are uncommon,
+which is unsurprising.
+
+Our dependent variable of healthy male birth weight should have a normal
+distribution, as the average weight of a healthy baby is known. Let's
+verify this claim with a histogram.
+
+\includegraphics{Final_WriteUp_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\(\textbf{Figure 2}\): Distribution of dependent variable.
+
+As predicted, the distribution of birth weight is in fact normally
+distributed and well approximated by the Gaussian distribution as shown
+in Figure 2.
+
+\subsubsection{Treatment of NA's}\label{treatment-of-nas}
+
+We run an NA count on our \texttt{chdbirths} data set to determine how
+to proceed with treatment of missing data.
+
+\begin{verbatim}
+##        wt gestation    parity      meth      mage       med       mht 
+##         0        13         0         1         2         1        22 
+##       mwt      feth      fage       fed       fht       fwt   marital 
+##        36        31         7        13       492       499         0 
+##    income     smoke      time    number 
+##       124        10        10        21
+\end{verbatim}
+
+\(\;\)\\
+Immediately, we notice that father weight and height are missing almost
+40\% of values, so we will have to discard these variables from our
+analysis. After doing so, we consider a visual map of the distribution
+of NAs (yellow) among our data set using the \texttt{Amelia} package in
+R. Fun fact: the Amelia package in R is used for treatment of missing
+data, and named after Amelia Earhart.
+
+\(\;\)
+
+\begin{verbatim}
+## Error in axis(2, lwd = 0, labels = y.labels, las = 1, at = y.at, cex.axis = y.cex): no locations are finite
+\end{verbatim}
+
+\includegraphics{Final_WriteUp_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\(\textbf{Figure 3}\): Missingness map for NAs by covariate.
+
+As we can see there are a significant amount of NA's in the income
+covariate, around 10\% of the observations, and we will want to impute
+this in order to not lose a valuable predictor.
+
+We will use the R \texttt{mice} package to do multiple imputation on our
+missing values in the remaining continous variables (refer to Appendix
+A). In particular, the imputation on income is important since around
+10\% of its values are missing, and removing these could bias our
+analysis. For the remaining NAs in categorical variables we simply
+remove those observations. As a result, we only remove 55 observations,
+which is around 6\% of our data set.
+
+\begin{center}\includegraphics{Final_WriteUp_files/figure-latex/unnamed-chunk-7-1} \end{center}
+
+\(\textbf{Figure 4}\): Plot to display difference between imputed values
+(pink) and observed (blue).
+
+These density plots in Figure 4 show the distribution of the data of
+existing observations (blue) compared to the distribution of the imputed
+values (pink) for each iteration of the MICE algorithm. As we can see,
+the imputation of father age varies greatly because there are only 7
+missing values, creating variability. The other distributions of imputed
+values seem to be consistent with the existing data.
+
+\subsubsection{Automatic Model
+Selection}\label{automatic-model-selection}
+
+We will now run the 3 automated model selection algorithms over each of
+our 5 imputed data sets. This may generate up to 15 different models
+(some may be the same formula). Refer to \emph{Appendix B} for the code
+used to run automated model selection. In order to narrow down to the
+best candidate models, we considered 3 main metrics of model quality,
+summarized in the table below.
+
+\subsubsection{Manual Model Selection}\label{manual-model-selection}
+
+\begin{verbatim}
+##             Ms1       Ms2       Ms3       Ms4       Ms5
+## AIC     9687.35   9685.75   9692.72   9678.55   9697.28
+## RSE       15.22     15.23     15.27     15.15     15.31
+## PRESS 278739.89 278175.75 279837.42 276374.66 280983.31
+\end{verbatim}
+
+\(\textbf{Table 1}\): Summary statistics for stepwise selection models
+over 5 imputed data sets.
+
+Based off of these metrics, the model produced by Stepwise selection on
+the 4th imputed data set had the lowest AIC, RSE, and PRESS, which
+indicates that it's a better model fit. We will proceed with this one to
+our cross-validation step. Next, here is the summary table for our
+\emph{Forward selection} models.
+
+\begin{verbatim}
+##             Mf1       Mf2       Mf3       Mf4       Mf5
+## AIC     9710.82   9707.19   9717.34   9700.48   9715.35
+## RSE       15.40     15.39     15.45     15.37     15.44
+## PRESS 284608.71 283617.99 285765.65 281067.63 285123.72
+\end{verbatim}
+
+\(\textbf{Table 2}\): Summary statistics for forward selection models
+over 5 imputed data sets.
+
+We can observe that the 4th model has the lowest RSE, AIC, and PRESS
+statistics scores. As such, we will proceed with 4th forward model to
+the cross-validation step. Next, we have the summary table for our
+\emph{Backward selection} models.
+
+\begin{verbatim}
+##          Mb1     Mb2     Mb3     Mb4     Mb5
+## AIC   9692.2 9689.97 9781.62 9684.33 9698.15
+## RSE     15.2   15.18   15.36   15.13   15.23
+## PRESS    Inf     Inf     Inf     Inf     Inf
+\end{verbatim}
+
+\(\textbf{Table 3}\): Summary statistics for backward elimination models
+over 5 imputed data sets.
+
+Based off of these metrics, the model produced by backward elimination
+on the 4th imputed data set had the lowest AIC, RSE, and PRESS, which
+indicates that it's a better model fit. However, the model call is very
+convoluted and includes a multitude of interactions that are hard to
+justify logically.As such, we proceed with our forward and stepwise
+models to cross-validation.
+
+\subsubsection{Cross-Validation}\label{cross-validation}
+
+We will run cross-validation on the 2 candidate models \texttt{Ms4}, and
+\texttt{Mf4}. The resulting boxplot of RPMSE and histogram of logLambda
+are shown below.
+
+\includegraphics{Final_WriteUp_files/figure-latex/unnamed-chunk-14-1.pdf}
+\(\textbf{Figure 5}\): Boxplot (left) and histogram(right) of results of
+cross-validation.
+
+From the boxplot above we see that the stepwise model is comparitively
+the best one. The mean red line on the logLambda histogram is negative,
+indicating a preference for the stepwise model. Likewise, form hte
+boxplot we observe a preference for the stepwise model as well.
+
+\subsection{III. Model Diagnostics}\label{iii.-model-diagnostics}
+
+We now compare and contrast the residuals of each model to make our
+final choice for the best candidate between stepwise and forward
+selection.
+
+First, let's take a look at each model's residual plots.
+
+\includegraphics{Final_WriteUp_files/figure-latex/unnamed-chunk-15-1.pdf}
+\(\textbf{Figure 6}\): Residual plots for stepwise model.
+
+From these 4 diagnostic plots we can observe that there is no clear
+violation of the 3 assumptions of linear regression for the stepwise
+model. The residuals vs.~fitted plot depicts an overall linear
+conditional mean, with randomly scattered residuals about the x=0
+horizontal line. We observe a slight deviation of the red mean (of
+residual values at each fitted value) line from x=0 for higher fitted
+values, but since so few observations fall past a fitted value of 150,
+this is not too concerning.
+
+In the QQ-plot we notice a slight deviation at the tails, but overall
+the residuals of the stepwise model appear Normally distributed. The
+Scale-Location plot shows us that the assumption of equal variance
+(homoscedasticity) holds for this model, with a slight (but not
+significant) deviation for higher fitted values. Finally, the Residuals
+vs.~Leverage plot shows us that there are several points with high
+leverage in the stepwise model, but none of them have a concerning
+influence (if they were outside the dotted red lines depicting Cook's
+distance).
+
+We will now consider these same plots for the \emph{forward selection
+model}.
+
+\includegraphics{Final_WriteUp_files/figure-latex/unnamed-chunk-16-1.pdf}
+\(\textbf{Figure 7}\): Residual plots for forward model.
+
+Overall, the residual diagnostic plots look very similar to those for
+the stepwise model. We will highlight a couple of differences.
+
+First, the red mean line in the Residuals vs.~Fitted appears a little
+bit straighter, indicating that the linear conditional mean assumption
+holds a bit better for the forward model. The QQ-plot and Scale-Location
+plot have little to no differences to those for the stepwise model. The
+Residuals vs.~Leverage plot once again shows only points with high
+leverage, and no particularly influential points. As in an ideal
+scenario, we can not even see the Cook's distance lines in the graph.
+
+The next thing we can take a look at are histograms of each model's
+studentized residuals.
+
+\includegraphics{Final_WriteUp_files/figure-latex/unnamed-chunk-17-1.pdf}
+\(\textbf{Figure 8}\): Histogram of studentized residuals for both
+models.
+
+Once again, we see little to no differences between each model's
+residuals, now studentized and standardized. Both distributions are very
+slightly left skewed, supporting our previous observation of the
+residuals being somewhat negatively biased. Both also have slight peaks
+at the mean of 0 but are still well approximated by a Gaussian
+distribution. So we can say that both models do not violate the 6th
+assumption of regression, which claims iid Normal errors.
+
+Now let's take a look at the influence vs.~leverage plot for both of our
+models. Below, we plot the stepwise model in red and forwards in blue.
+
+\begin{center}\includegraphics{Final_WriteUp_files/figure-latex/unnamed-chunk-18-1} \end{center}
+
+\(\textbf{Figure 9}\): Influence vs.~Leverage plot for both models.
+
+We can see that the stepwise model and the forwards model have a
+majority of the points in the same area of the graph, with a few slight
+exceptions. The stepwise model contains a few distinct high leverage
+points (labelled on the right) and a few high influence points (labelled
+near the top). Let's take a look at which observations these are to try
+and deduce why they may have high leverage/influence.
+
+\begin{verbatim}
+##       wt gestation parity meth mage marital income smoke
+## 1100 174       284      7   AA   39   other      1 never
+\end{verbatim}
+
+The highest influence point is an observation with one of the highest
+birth weights, but a relatively normal gestational period. We take a
+look at the other observations with equal or higher birth weight.
+
+\begin{verbatim}
+##       wt gestation parity      meth mage marital income smoke
+## 557  174       281      3 Caucasian   37 married      7 never
+## 633  176       293      0 Caucasian   19 married     NA never
+## 748  174       288      2 Caucasian   25 married      3 never
+## 1100 174       284      7        AA   39   other      1 never
+\end{verbatim}
+
+We notice that other babies born with such a high birth weight were all
+born to Caucasian, married parents, unlike the highest influence point.
+Moreover, our observation had an income level of 1, which is the lowest
+of this group. These are the likely causes for the high influence of
+this observation.
+
+Now looking at the highest leverage point.
+
+\begin{verbatim}
+##      wt gestation parity meth mage med mht mwt feth fage fed marital
+## 246 116       148      7   AA   28 mid  66 135   AA   36 mid   other
+##     income smoke time number
+## 246      2 never    0      0
+\end{verbatim}
+
+Looking at the highest leverage point, it is noticeable that observation
+246 has a normal birth weight (mean birth weight is 119 ounces), and yet
+a very low gestational period (of about 21 weeks). From research on
+typical fetus weight gain during pregnancy, a fetus at 21 weeks is
+typically \emph{12 ounces}, while this observation has a weight of
+\emph{116 ounces}. This strikes us as a possible input error or improper
+identification of conception date on the part of the parents, that may
+have biased our automatic model selection.
+
+After looking at various model diagnostic measures, we have noticed very
+little differences between our two candidate models in terms of how well
+the linear regression assumptions hold. From our earlier analysis using
+cross validation, AIC, and PRESS statistics, the stepwise model was
+superior to our forward model on all 3 counts. As such, as our final
+model, we will select the one produced by \emph{stepwise selection}.
+
+As discussed above however, our stepwise model may have been influenced
+by the high leverage point. After re-running automatic stepwise
+selection on all 5 imputed data sets \emph{with observation 246
+excluded}, we noticed that our optimal stepwise model call changed
+(refer to Appendix for details). The new stepwise model has a simpler
+formula with less terms, and most notably, now includes the
+\texttt{time:number} interaction. From our research, the metric
+``pack-years'' which counts how much and for how long an individual
+smoked is quite influential on birth weight, and we believe that the
+\texttt{time:number} interaction is the best proxy for this measure.
+
+Running cross-validation across all 5 \emph{complete} imputed data sets
+for the old and new stepwise selection models revealead that they had no
+significant difference in predictive power. As such, we will use the new
+stepwise model as our final model since it retains the predicitve power
+of the first one while being a simpler model. Refer to our Discussion
+section below for a more detailed explanation on why we felt it was
+justified to exclude observation 246.
+
+As a final step, we pool the coefficients from the five imputations for
+our stepwise model, and display the results including the final model's
+call.
+
+\begin{verbatim}
+## lm(formula = wt ~ gestation + parity + meth + mage + mht + mwt + 
+##     marital + income + smoke + time + number + gestation:income + 
+##     gestation:number + mwt:income + gestation:mage + parity:marital + 
+##     mht:marital + gestation:mwt + gestation:mht + time:number, 
+##     data = compldata)
+\end{verbatim}
+
+\begin{verbatim}
+##                     estimate std.error statistic       df p.value
+## (Intercept)          305.793   221.794     1.379  912.765   0.168
+## gestation             -0.925     0.796    -1.162  885.093   0.246
+## parity                 0.926     0.294     3.147  903.663   0.002
+## methAsian              4.248     2.754     1.543 1094.444   0.123
+## methCaucasian          8.981     1.290     6.963  923.520   0.000
+## methMexican           12.095     2.717     4.452 1122.733   0.000
+## methOther              6.108     3.450     1.770 1129.902   0.077
+## mage                  -3.818     1.627    -2.347  597.076   0.019
+## mht                   -4.394     3.584    -1.226  940.448   0.220
+## mwt                    0.991     0.423     2.345  864.446   0.019
+## maritalother        -214.341    96.762    -2.215 1118.249   0.027
+## income                -9.249     4.580    -2.019   79.415   0.044
+## smokesmokesnow       -14.252     9.115    -1.564 1135.724   0.118
+## smokeuntilpreg        -4.110     8.440    -0.487 1135.886   0.626
+## smokeusedto           -0.046     6.604    -0.007 1137.381   0.994
+## time                   1.221     1.163     1.050 1134.236   0.294
+## number               -18.980     4.333    -4.380  968.910   0.000
+## gestation:income       0.024     0.016     1.513   67.054   0.130
+## gestation:number       0.052     0.014     3.825  972.111   0.000
+## mwt:income             0.018     0.011     1.655   79.187   0.098
+## gestation:mage         0.013     0.006     2.329  592.255   0.020
+## parity:maritalother    4.066     1.413     2.878 1102.028   0.004
+## mht:maritalother       3.183     1.503     2.118 1119.781   0.034
+## gestation:mwt         -0.003     0.002    -2.313  907.024   0.021
+## gestation:mht          0.019     0.013     1.511  924.477   0.131
+## time:number            0.423     0.261     1.623 1131.287   0.105
+\end{verbatim}
+
+\subsubsection{Errors and Trouble
+Encountered}\label{errors-and-trouble-encountered}
+
+During our data analysis, we learned a lot about strategies to choose a
+well fitting model for a given sample population. In the end we retained
+a model that made sense to us, but to get there we did first run into a
+few hurdles. For example, when working with models with quite a few
+terms, we received an error of âPrediction from a rank-deficient fit
+may be misleadingâ which our research explained by claiming that as
+you add terms to a formula, regression will consider having too many
+predictors as a problem. To deal with this, we tried taking out a few
+interactions that werenât intuitive and re-running cross-validation to
+see if the removal helped. Another issue we encountered was that
+interactions between variables such as parent's education and ethnicity
+which produced a lot of NAâs so we decided to restrict our models from
+including such interactions.
+
+\subsection{IV. Discussion}\label{iv.-discussion}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  From our analysis, we have explored the relation of the 17 independent
+  variables given in our data set to healthy singleton male births in
+  San Francisco in the 1960's. From our models, we have noticed that the
+  most significant predictors for our given population included both
+  physical factors and socioeconomic factors. In terms of physical
+  attributes, length of gestational period was particularly predictive,
+  as well as mother's height/weight and parity (whether the child was
+  first born or not). In addition, the smoking status of the mother
+  (whether/how much they smoked during pregnancy) as well as ethnicity
+  (Caucasian tended to have higher birth weights) were noticed to be
+  predictive. In terms of socioeconomic factors, income was a predictive
+  variable in our models, with higher-income units typically having
+  higher birth weights. However, we cannot make any conclusion about
+  marital status based off of our model since 98\% of our observations
+  were married couples.
+\item
+  Based off of our analysis, the biggest behavioural changes that could
+  be made in order to avoid low birth weight would be to quit smoking as
+  soon as possible, whether that be before pregnancy or as soon as
+  pregnancy is known. As well, potentially ensuring that the mother has
+  a healthy weight, and in particular is not significantly underweight,
+  could help lower the risk of a low birth weight. As well, although not
+  in our final model, from our research we haven noted that studies have
+  found a strong association between illiteracy and low birth weight.
+  This is another factor that could potentially be in control of the
+  mother, depending on her socioeconomic resources.
+\item
+  Yes, in our final model we retained coefficients with high p-values
+  (\textgreater{}0.05). This was because the basis for adding/removing
+  terms in the automatic stepwise selection algorithm was carried out
+  based on AIC score, and not on p-value. As such, the algorithm
+  optimized a different measure of statiscial significance, and it is
+  still appropriate to keep these coefficients in our final model.
+\item
+  Yes, as previously discussed when analyzing leverage above,
+  observation 246 had an almost impossibly high birth weight given that
+  the gestational period was around 21 weeks. This observation be
+  appropriate to remove because even it if wasn't caused by incorrect
+  measurement, is statistically very improbably to be repeated, and we
+  wouldn't necessarily want a model to be influenced by it. As well, we
+  noticed that there were quite a few observations with unusually high
+  gestational periods. In particular, observations 11 and 1104 had
+  gestational periods over 350 days, which is almost a year in length.
+  Although removing these observations would likely not be appropriate,
+  this makes us question exactly how gestational period was defined, and
+  how likely the mother was to provide an accurate conception date. This
+  might be an important consideration for any future studies conducted
+  on this topic.
+\item
+  As discussed in the model selection above, all of the assumptions of
+  linear regression can be said to hold for our final model. Possible
+  deficiences of our model is that it was trained on a very specific
+  subpopulation. In the model diagnostics section above, we saw that
+  both models failed to providence any evidence of a violation of
+  regression assumptions. A possible deficiency of our model is that it
+  was trained on a very specific subpopulation from 1960s San Francisco.
+  This subpopulation has certain characteristics that may not be seen in
+  more recently collected data or in varying geographic locations. Due
+  to this, even our cross validation tests may not have been entirely
+  representative of out-of-sample prediction. This may have biased us
+  towards selecting a final model with a larger amount of terms in the
+  formula.
+\end{enumerate}
+
+\subsection{Appendix for R Code}\label{appendix-for-r-code}
+
+\subsubsection{A. Pre-Fitting}\label{a.-pre-fitting}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Creating pairs plots, adjusting which variables we want in it}
+\KeywordTok{pairs}\NormalTok{(chdbirths[,}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{14}\NormalTok{,}\DecValTok{8}\NormalTok{)],}\DataTypeTok{pch=}\DecValTok{16}\NormalTok{, }\DataTypeTok{cex=}\NormalTok{.}\DecValTok{3}\NormalTok{, }\DataTypeTok{col=}\KeywordTok{adjustcolor}\NormalTok{(}\StringTok{"black"}\NormalTok{,}\FloatTok{0.5}\NormalTok{))}
+
+\CommentTok{# Create histogram of birthweight to view distribution}
+\KeywordTok{hist}\NormalTok{(chdbirths}\OperatorTok{$}\NormalTok{wt,}\DataTypeTok{freq=}\OtherTok{FALSE}\NormalTok{, }\DataTypeTok{breaks=}\StringTok{"FD"}\NormalTok{, }\DataTypeTok{col=}\StringTok{"gray90"}\NormalTok{,}
+     \DataTypeTok{xlab =} \StringTok{"Healthy Male Birth Weight"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Histogram of Birth Weight"}\NormalTok{)}
+\CommentTok{# Overlay Gaussian approximation}
+\KeywordTok{curve}\NormalTok{(}\KeywordTok{dnorm}\NormalTok{(x,}\DataTypeTok{mean=}\KeywordTok{mean}\NormalTok{(chdbirths}\OperatorTok{$}\NormalTok{wt),}\DataTypeTok{sd=}\KeywordTok{sd}\NormalTok{(chdbirths}\OperatorTok{$}\NormalTok{wt)),}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{,}\DataTypeTok{add=}\OtherTok{TRUE}\NormalTok{)}
+
+
+\NormalTok{## Re-coding the data that doesn't make sense ordinally into categorical variables}
+
+\CommentTok{# Mother and father ethnicity}
+\NormalTok{births}\OperatorTok{$}\NormalTok{meth[chdbirths}\OperatorTok{$}\NormalTok{meth }\OperatorTok{%in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{)] <-}\StringTok{ "Caucasian"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{meth[chdbirths}\OperatorTok{$}\NormalTok{meth }\OperatorTok{==}\StringTok{ }\DecValTok{6}\NormalTok{] <-}\StringTok{ "Mexican"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{meth[chdbirths}\OperatorTok{$}\NormalTok{meth }\OperatorTok{==}\StringTok{ }\DecValTok{7}\NormalTok{] <-}\StringTok{ "AA"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{meth[chdbirths}\OperatorTok{$}\NormalTok{meth }\OperatorTok{==}\StringTok{ }\DecValTok{8}\NormalTok{] <-}\StringTok{ "Asian"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{meth[chdbirths}\OperatorTok{$}\NormalTok{meth }\OperatorTok{%in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{9}\NormalTok{,}\DecValTok{10}\NormalTok{)] <-}\StringTok{ "Other"} \CommentTok{# grouping in Mixed }
+
+\NormalTok{births}\OperatorTok{$}\NormalTok{feth[chdbirths}\OperatorTok{$}\NormalTok{feth }\OperatorTok{%in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{)] <-}\StringTok{ "Caucasian"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{feth[chdbirths}\OperatorTok{$}\NormalTok{feth }\OperatorTok{==}\StringTok{ }\DecValTok{6}\NormalTok{] <-}\StringTok{ "Mexican"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{feth[chdbirths}\OperatorTok{$}\NormalTok{feth }\OperatorTok{==}\StringTok{ }\DecValTok{7}\NormalTok{] <-}\StringTok{ "AA"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{feth[chdbirths}\OperatorTok{$}\NormalTok{feth }\OperatorTok{==}\StringTok{ }\DecValTok{8}\NormalTok{] <-}\StringTok{ "Asian"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{feth[chdbirths}\OperatorTok{$}\NormalTok{feth }\OperatorTok{%in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{9}\NormalTok{,}\DecValTok{10}\NormalTok{)] <-}\StringTok{ "Other"} \CommentTok{# grouping in Mixed }
+
+\CommentTok{# Mother and father education}
+\NormalTok{births}\OperatorTok{$}\NormalTok{med[chdbirths}\OperatorTok{$}\NormalTok{med }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{] <-}\StringTok{ "elem"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{med[chdbirths}\OperatorTok{$}\NormalTok{med }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{] <-}\StringTok{ "mid"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{med[chdbirths}\OperatorTok{$}\NormalTok{med }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{] <-}\StringTok{ "hs"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{med[chdbirths}\OperatorTok{$}\NormalTok{med }\OperatorTok{==}\StringTok{ }\DecValTok{3}\NormalTok{] <-}\StringTok{ "hs+trade"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{med[chdbirths}\OperatorTok{$}\NormalTok{med }\OperatorTok{==}\StringTok{ }\DecValTok{4}\NormalTok{] <-}\StringTok{ "hs+some+col"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{med[chdbirths}\OperatorTok{$}\NormalTok{med }\OperatorTok{==}\StringTok{ }\DecValTok{5}\NormalTok{] <-}\StringTok{ "col"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{med[chdbirths}\OperatorTok{$}\NormalTok{med }\OperatorTok{==}\StringTok{ }\DecValTok{6}\NormalTok{] <-}\StringTok{ "trade"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{med[chdbirths}\OperatorTok{$}\NormalTok{med }\OperatorTok{==}\StringTok{ }\DecValTok{7}\NormalTok{] <-}\StringTok{ "hs+unclear"}
+
+\NormalTok{births}\OperatorTok{$}\NormalTok{fed[chdbirths}\OperatorTok{$}\NormalTok{fed }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{] <-}\StringTok{ "elem"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{fed[chdbirths}\OperatorTok{$}\NormalTok{fed }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{] <-}\StringTok{ "mid"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{fed[chdbirths}\OperatorTok{$}\NormalTok{fed }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{] <-}\StringTok{ "hs"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{fed[chdbirths}\OperatorTok{$}\NormalTok{fed }\OperatorTok{==}\StringTok{ }\DecValTok{3}\NormalTok{] <-}\StringTok{ "hs+trade"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{fed[chdbirths}\OperatorTok{$}\NormalTok{fed }\OperatorTok{==}\StringTok{ }\DecValTok{4}\NormalTok{] <-}\StringTok{ "hs+some+col"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{fed[chdbirths}\OperatorTok{$}\NormalTok{fed }\OperatorTok{==}\StringTok{ }\DecValTok{5}\NormalTok{] <-}\StringTok{ "col"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{fed[chdbirths}\OperatorTok{$}\NormalTok{fed }\OperatorTok{==}\StringTok{ }\DecValTok{6}\NormalTok{] <-}\StringTok{ "trade"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{fed[chdbirths}\OperatorTok{$}\NormalTok{fed }\OperatorTok{==}\StringTok{ }\DecValTok{7}\NormalTok{] <-}\StringTok{ "hs+unclear"}
+
+\CommentTok{# Marital Status}
+\NormalTok{births}\OperatorTok{$}\NormalTok{marital[chdbirths}\OperatorTok{$}\NormalTok{marital }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{] <-}\StringTok{ "married"}
+\CommentTok{# Grouping all other types because vast majority of obs. are married}
+\NormalTok{births}\OperatorTok{$}\NormalTok{marital[chdbirths}\OperatorTok{$}\NormalTok{marital }\OperatorTok{%in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{)] <-}\StringTok{ "other"}
+
+\CommentTok{# Smoke}
+\NormalTok{births}\OperatorTok{$}\NormalTok{smoke[chdbirths}\OperatorTok{$}\NormalTok{smoke }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{] <-}\StringTok{ "never"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{smoke[chdbirths}\OperatorTok{$}\NormalTok{smoke }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{] <-}\StringTok{ "smokesnow"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{smoke[chdbirths}\OperatorTok{$}\NormalTok{smoke }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{] <-}\StringTok{ "untilpreg"}
+\NormalTok{births}\OperatorTok{$}\NormalTok{smoke[chdbirths}\OperatorTok{$}\NormalTok{smoke }\OperatorTok{==}\StringTok{ }\DecValTok{3}\NormalTok{] <-}\StringTok{ "usedto"}
+
+\CommentTok{#Time, keep ordinal but change to more sensible order}
+\NormalTok{births}\OperatorTok{$}\NormalTok{time[chdbirths}\OperatorTok{$}\NormalTok{time }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{] <-}\StringTok{ }\DecValTok{8}
+\NormalTok{births}\OperatorTok{$}\NormalTok{time[chdbirths}\OperatorTok{$}\NormalTok{time }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{] <-}\StringTok{ }\DecValTok{7}
+\NormalTok{births}\OperatorTok{$}\NormalTok{time[chdbirths}\OperatorTok{$}\NormalTok{time }\OperatorTok{==}\StringTok{ }\DecValTok{3}\NormalTok{] <-}\StringTok{ }\DecValTok{6}
+\NormalTok{births}\OperatorTok{$}\NormalTok{time[chdbirths}\OperatorTok{$}\NormalTok{time }\OperatorTok{==}\StringTok{ }\DecValTok{4}\NormalTok{] <-}\StringTok{ }\DecValTok{5}
+\NormalTok{births}\OperatorTok{$}\NormalTok{time[chdbirths}\OperatorTok{$}\NormalTok{time }\OperatorTok{==}\StringTok{ }\DecValTok{5}\NormalTok{] <-}\StringTok{ }\DecValTok{4}
+\NormalTok{births}\OperatorTok{$}\NormalTok{time[chdbirths}\OperatorTok{$}\NormalTok{time }\OperatorTok{==}\StringTok{ }\DecValTok{6}\NormalTok{] <-}\StringTok{ }\DecValTok{3}
+\NormalTok{births}\OperatorTok{$}\NormalTok{time[chdbirths}\OperatorTok{$}\NormalTok{time }\OperatorTok{==}\StringTok{ }\DecValTok{7}\NormalTok{] <-}\StringTok{ }\DecValTok{2}
+\NormalTok{births}\OperatorTok{$}\NormalTok{time[chdbirths}\OperatorTok{$}\NormalTok{time }\OperatorTok{==}\StringTok{ }\DecValTok{8}\NormalTok{] <-}\StringTok{ }\DecValTok{1}
+\NormalTok{births}\OperatorTok{$}\NormalTok{time[chdbirths}\OperatorTok{$}\NormalTok{time }\OperatorTok{==}\StringTok{ }\DecValTok{9}\NormalTok{] <-}\StringTok{ }\OtherTok{NA} \CommentTok{# only 5 observations, will be deleted}
+
+\NormalTok{##}
+
+
+\CommentTok{# Counting NA's in each variate}
+\NormalTok{NAcount <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(chdbirths, }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{sum}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(x)))}
+
+\CommentTok{# Dropping father height and weight since so many NA's }
+\NormalTok{drops <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"fwt"}\NormalTok{,}\StringTok{"fht"}\NormalTok{)}
+\NormalTok{births <-}\StringTok{ }\NormalTok{births[,}\OperatorTok{!}\NormalTok{(}\KeywordTok{names}\NormalTok{(births) }\OperatorTok{%in%}\StringTok{ }\NormalTok{drops)]}
+
+\CommentTok{# Using Amelia R package, display a graph of proportion of missing vals}
+\KeywordTok{missmap}\NormalTok{(births, }\DataTypeTok{col=}\KeywordTok{c}\NormalTok{(}\StringTok{"yellow"}\NormalTok{,}\StringTok{"midnightblue"}\NormalTok{),}\DataTypeTok{y.labels=}\StringTok{""}\NormalTok{,}\DataTypeTok{y.at=}\StringTok{""}\NormalTok{)}
+
+\CommentTok{# Displaying differences between observations and imputed data}
+\KeywordTok{densityplot}\NormalTok{(imp_all) }
+\end{Highlighting}
+\end{Shaded}
+
+The following code was used to run the mice algorithm and create 5
+imputed data sets.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#removing observations with NAs in variables that aren't income}
+\NormalTok{birthsCompl <-}\StringTok{ }\NormalTok{births[}\KeywordTok{complete.cases}\NormalTok{(births}\OperatorTok{$}\NormalTok{marital, births}\OperatorTok{$}\NormalTok{meth,}
+\NormalTok{                                     births}\OperatorTok{$}\NormalTok{med,births}\OperatorTok{$}\NormalTok{feth,}
+\NormalTok{                                     births}\OperatorTok{$}\NormalTok{fed, births}\OperatorTok{$}\NormalTok{smoke, births}\OperatorTok{$}\NormalTok{time, births}\OperatorTok{$}\NormalTok{number),]}
+\CommentTok{# using the mice function to impute missing values over 5 iterations}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{300}\NormalTok{)}
+\NormalTok{imp_all <-}\StringTok{ }\KeywordTok{mice}\NormalTok{(birthsCompl,}\DataTypeTok{m=}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{B. Model Selection}\label{b.-model-selection}
+
+This code pertains to our Automatic Model Selection in the report.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Stepwise Model Selection}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{)\{ }\CommentTok{# run through each imputation mice returns }
+\NormalTok{  compldata <-}\StringTok{ }\KeywordTok{complete}\NormalTok{(imp_all,i) }\CommentTok{# Completing data set over each imputation}
+\NormalTok{  M0 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(wt}\OperatorTok{~}\DecValTok{1}\NormalTok{,}\DataTypeTok{data=}\NormalTok{compldata) }\CommentTok{# minimal model: intercept only}
+  
+  \CommentTok{# all main effects and interactions}
+\NormalTok{  ##  Removed feth, meth, fed, med interactions because they produced NA's}
+\NormalTok{  Mmax <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(wt }\OperatorTok{~}\StringTok{ }\NormalTok{(.}\OperatorTok{-}\NormalTok{feth }\OperatorTok{-}\StringTok{ }\NormalTok{meth }\OperatorTok{-}\StringTok{ }\NormalTok{fed }\OperatorTok{-}\StringTok{ }\NormalTok{med)}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{feth }\OperatorTok{+}\StringTok{ }\NormalTok{meth }\OperatorTok{+}\StringTok{ }\NormalTok{fed }\OperatorTok{+}\StringTok{ }\NormalTok{med,}\DataTypeTok{data=}\NormalTok{compldata)}
+\NormalTok{  Mstart <-}\KeywordTok{lm}\NormalTok{(wt }\OperatorTok{~}\NormalTok{., }\DataTypeTok{data =}\NormalTok{ compldata) }\CommentTok{# starting model for stepwise}
+\NormalTok{  Mstep <-}\StringTok{ }\KeywordTok{step}\NormalTok{(}\DataTypeTok{object=}\NormalTok{ Mstart,}
+              \DataTypeTok{scope=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{lower=}\NormalTok{M0, }\DataTypeTok{upper =}\NormalTok{ Mmax),}
+              \DataTypeTok{direction =}\StringTok{"both"}\NormalTok{, }\CommentTok{# stepwise direction }
+              \DataTypeTok{trace=}\OtherTok{FALSE}\NormalTok{)}
+\NormalTok{  model <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"Ms"}\NormalTok{,i, }\DataTypeTok{sep=}\StringTok{""}\NormalTok{) }\CommentTok{# dynamically name models with corresponding index}
+  \KeywordTok{assign}\NormalTok{(model,Mstep)}
+\NormalTok{\}}
+
+\CommentTok{# Forward Model Selection}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{)\{ }\CommentTok{# run through each imputation mice returns }
+\NormalTok{  compldata <-}\StringTok{ }\KeywordTok{complete}\NormalTok{(imp_all,i) }\CommentTok{# Completing data set over each imputation}
+\NormalTok{  Mfwd <-}\StringTok{ }\KeywordTok{step}\NormalTok{(}\DataTypeTok{object =}\NormalTok{ M0,}
+              \DataTypeTok{scope=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{lower=}\NormalTok{M0, }\DataTypeTok{upper =}\NormalTok{ Mmax),}
+              \DataTypeTok{direction =}\StringTok{"forward"}\NormalTok{, }\CommentTok{# forward direction }
+              \DataTypeTok{trace=}\OtherTok{FALSE}\NormalTok{)}
+\NormalTok{  model <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"Mf"}\NormalTok{,i, }\DataTypeTok{sep=}\StringTok{""}\NormalTok{) }\CommentTok{# dynamically name models with corresponding index}
+  \KeywordTok{assign}\NormalTok{(model,Mfwd)}
+\NormalTok{\}}
+
+\CommentTok{# Backwards Model Selection}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{)\{ }\CommentTok{# run through each imputation mice returns}
+\NormalTok{  compldata <-}\StringTok{ }\KeywordTok{complete}\NormalTok{(imp_all,i) }\CommentTok{# Completing data set over each imputation}
+\NormalTok{  Mback <-}\StringTok{ }\KeywordTok{step}\NormalTok{(}\DataTypeTok{object =}\NormalTok{ Mmax,}
+              \DataTypeTok{scope=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{lower=}\NormalTok{M0, }\DataTypeTok{upper =}\NormalTok{ Mmax),}
+              \DataTypeTok{direction =}\StringTok{"backward"}\NormalTok{, }\CommentTok{# backwards direction }
+              \DataTypeTok{trace=}\OtherTok{FALSE}\NormalTok{)}
+\NormalTok{  model <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"Mb"}\NormalTok{,i, }\DataTypeTok{sep=}\StringTok{""}\NormalTok{) }\CommentTok{# dynamically name models with corresponding index}
+  \KeywordTok{assign}\NormalTok{(model,Mback)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{C. Manual Model
+Selection}\label{c.-manual-model-selection}
+
+The following code pertains to our Manual Model Selection section of the
+report, and is used to generate the 3 tables of diagnostic statistics on
+the 15 models generated by automatic model selection.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Calculate PRESS statistic for each of the 5 stepwise models, similar code for forward/backward}
+\NormalTok{pressc1 <-}\StringTok{ }\KeywordTok{sum}\NormalTok{((}\KeywordTok{resid}\NormalTok{(Ms1)}\OperatorTok{/}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\KeywordTok{hatvalues}\NormalTok{(Ms1)))}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+\NormalTok{pressc2 <-}\StringTok{ }\KeywordTok{sum}\NormalTok{((}\KeywordTok{resid}\NormalTok{(Ms2)}\OperatorTok{/}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\KeywordTok{hatvalues}\NormalTok{(Ms2)))}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+\NormalTok{pressc3 <-}\StringTok{ }\KeywordTok{sum}\NormalTok{((}\KeywordTok{resid}\NormalTok{(Ms3)}\OperatorTok{/}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\KeywordTok{hatvalues}\NormalTok{(Ms3)))}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+\NormalTok{pressc4 <-}\StringTok{ }\KeywordTok{sum}\NormalTok{((}\KeywordTok{resid}\NormalTok{(Ms4)}\OperatorTok{/}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\KeywordTok{hatvalues}\NormalTok{(Ms4)))}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+\NormalTok{pressc5 <-}\StringTok{ }\KeywordTok{sum}\NormalTok{((}\KeywordTok{resid}\NormalTok{(Ms5)}\OperatorTok{/}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\KeywordTok{hatvalues}\NormalTok{(Ms5)))}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+
+
+\CommentTok{# Stepwise models summary of AIC, RSE, and PRESS statistic, similar code for forward/backward}
+\NormalTok{step.matrix <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{5}\NormalTok{) }\CommentTok{# initial matrix }
+\KeywordTok{rownames}\NormalTok{(step.matrix) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"AIC"}\NormalTok{, }\StringTok{"RSE"}\NormalTok{, }\StringTok{"PRESS"}\NormalTok{)}
+\KeywordTok{colnames}\NormalTok{(step.matrix) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Ms1"}\NormalTok{, }\StringTok{"Ms2"}\NormalTok{, }\StringTok{"Ms3"}\NormalTok{, }\StringTok{"Ms4"}\NormalTok{, }\StringTok{"Ms5"}\NormalTok{)}
+
+\CommentTok{# Create vectors of AIC, RSE, PRESS for each model}
+\NormalTok{aic.s <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\KeywordTok{AIC}\NormalTok{(Ms1), }\KeywordTok{AIC}\NormalTok{(Ms2), }\KeywordTok{AIC}\NormalTok{(Ms3), }\KeywordTok{AIC}\NormalTok{(Ms4), }\KeywordTok{AIC}\NormalTok{(Ms5)),}\DecValTok{2}\NormalTok{)}
+\NormalTok{rse.s <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\KeywordTok{sigma}\NormalTok{(Ms1), }\KeywordTok{sigma}\NormalTok{(Ms2), }\KeywordTok{sigma}\NormalTok{(Ms3), }\KeywordTok{sigma}\NormalTok{(Ms4), }\KeywordTok{sigma}\NormalTok{(Ms5)),}\DecValTok{2}\NormalTok{)}
+\NormalTok{press.s <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{c}\NormalTok{(pressc1, pressc2, pressc3, pressc4, pressc5),}\DecValTok{2}\NormalTok{)}
+\CommentTok{# Update matrix}
+\NormalTok{step.matrix[}\DecValTok{1}\NormalTok{,] <-}\StringTok{ }\NormalTok{aic.s}
+\NormalTok{step.matrix[}\DecValTok{2}\NormalTok{,] <-}\StringTok{ }\NormalTok{rse.s}
+\NormalTok{step.matrix[}\DecValTok{3}\NormalTok{,] <-}\StringTok{ }\NormalTok{press.s}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{D. Cross-Validation}\label{d.-cross-validation}
+
+The following section of our code was used for our cross-validation of
+the forward and stepwise models. It pertains to the cross-validation
+section of our report.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Fit stepwise model to imputations returned by mice }
+\NormalTok{fit.step <-}\StringTok{ }\KeywordTok{with}\NormalTok{(}\DataTypeTok{data=}\NormalTok{imp_all, }\DataTypeTok{exp =} \KeywordTok{lm}\NormalTok{(}\DataTypeTok{formula =}\NormalTok{ wt }\OperatorTok{~}\StringTok{ }\NormalTok{gestation }\OperatorTok{+}\StringTok{ }\NormalTok{parity }\OperatorTok{+}\StringTok{ }\NormalTok{meth }\OperatorTok{+}\StringTok{ }\NormalTok{mage }\OperatorTok{+}\StringTok{ }
+\StringTok{    }\NormalTok{mht }\OperatorTok{+}\StringTok{ }\NormalTok{mwt }\OperatorTok{+}\StringTok{ }\NormalTok{marital }\OperatorTok{+}\StringTok{ }\NormalTok{income }\OperatorTok{+}\StringTok{ }\NormalTok{smoke }\OperatorTok{+}\StringTok{ }\NormalTok{time }\OperatorTok{+}\StringTok{ }\NormalTok{number }\OperatorTok{+}\StringTok{ }\NormalTok{gestation}\OperatorTok{:}\NormalTok{income }\OperatorTok{+}\StringTok{ }
+\StringTok{    }\NormalTok{gestation}\OperatorTok{:}\NormalTok{number }\OperatorTok{+}\StringTok{ }\NormalTok{parity}\OperatorTok{:}\NormalTok{marital }\OperatorTok{+}\StringTok{ }\NormalTok{mwt}\OperatorTok{:}\NormalTok{income }\OperatorTok{+}\StringTok{ }\NormalTok{mht}\OperatorTok{:}\NormalTok{marital }\OperatorTok{+}\StringTok{ }
+\StringTok{    }\NormalTok{gestation}\OperatorTok{:}\NormalTok{mage }\OperatorTok{+}\StringTok{ }\NormalTok{gestation}\OperatorTok{:}\NormalTok{mwt }\OperatorTok{+}\StringTok{ }\NormalTok{gestation}\OperatorTok{:}\NormalTok{mht }\OperatorTok{+}\StringTok{ }\NormalTok{mage}\OperatorTok{:}\NormalTok{time }\OperatorTok{+}\StringTok{ }
+\StringTok{    }\NormalTok{mage}\OperatorTok{:}\NormalTok{number }\OperatorTok{+}\StringTok{ }\NormalTok{smoke}\OperatorTok{:}\NormalTok{number))}
+
+
+\CommentTok{# Fit forward model to imputations returned by mice }
+\NormalTok{fit.fwd <-}\StringTok{ }\KeywordTok{with}\NormalTok{(}\DataTypeTok{data=}\NormalTok{imp_all, }\DataTypeTok{expr =} \KeywordTok{lm}\NormalTok{(}\DataTypeTok{formula =}\NormalTok{ wt }\OperatorTok{~}\StringTok{ }\NormalTok{gestation }\OperatorTok{+}\StringTok{ }
+\StringTok{    }\NormalTok{smoke }\OperatorTok{+}\StringTok{ }\NormalTok{mht }\OperatorTok{+}\StringTok{ }\NormalTok{meth }\OperatorTok{+}\StringTok{ }\NormalTok{parity }\OperatorTok{+}\StringTok{ }\NormalTok{number }\OperatorTok{+}\StringTok{ }\NormalTok{mwt }\OperatorTok{+}\StringTok{ }\NormalTok{time }\OperatorTok{+}\StringTok{ }\NormalTok{gestation}\OperatorTok{:}\NormalTok{number }\OperatorTok{+}\StringTok{ }
+\StringTok{    }\NormalTok{gestation}\OperatorTok{:}\NormalTok{mwt }\OperatorTok{+}\StringTok{ }\NormalTok{gestation}\OperatorTok{:}\NormalTok{mht))}
+
+
+\CommentTok{# Compare stepwise and forward models with Cross Validation}
+\NormalTok{nreps <-}\StringTok{ }\DecValTok{1000} \CommentTok{# number of replications}
+\NormalTok{ntot <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(birthsCompl) }\CommentTok{# total number of observations}
+\NormalTok{ntrain <-}\StringTok{ }\FloatTok{0.8}\OperatorTok{*}\NormalTok{ntot }\CommentTok{# size of training set is 80% of total }
+\NormalTok{ntest <-}\StringTok{ }\NormalTok{ntot }\OperatorTok{-}\StringTok{ }\NormalTok{ntrain }\CommentTok{# size of test set is 20% of total }
+\NormalTok{mspe1 <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\OtherTok{NA}\NormalTok{, nreps) }\CommentTok{# sum-of-square errors for each CV replication}
+\NormalTok{mspe2 <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\OtherTok{NA}\NormalTok{, nreps)}
+
+\NormalTok{logLambda <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\OtherTok{NA}\NormalTok{, nreps) }\CommentTok{# log-likelihod ratio statistic for each replication}
+\NormalTok{m <-}\DecValTok{5} \CommentTok{# number of imputations}
+ 
+
+\ControlFlowTok{for}\NormalTok{ (ii }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{nreps) \{}
+  \CommentTok{# randomly select training observations}
+\NormalTok{  sample.ind <-}\StringTok{ }\KeywordTok{sample}\NormalTok{(m,}\DecValTok{1}\NormalTok{) }\CommentTok{# randomly select which imputed data set to use}
+\NormalTok{  M1.model <-}\StringTok{ }\NormalTok{fit.fwd}\OperatorTok{$}\NormalTok{analyses[[sample.ind]]}
+\NormalTok{  M2.model <-}\StringTok{ }\NormalTok{fit.step}\OperatorTok{$}\NormalTok{analyses[[sample.ind]]}
+\NormalTok{  train.ind <-}\StringTok{ }\KeywordTok{sample}\NormalTok{(ntot, ntrain) }\CommentTok{# training observations}
+  \CommentTok{# refit the models on the given imputed data and training indices }
+\NormalTok{  data_complete <-}\StringTok{ }\KeywordTok{complete}\NormalTok{(imp_all,sample.ind)}
+\NormalTok{  M1.cv <-}\StringTok{ }\KeywordTok{update}\NormalTok{(M1.model, }\DataTypeTok{data =}\NormalTok{ data_complete[train.ind,])}
+\NormalTok{  M2.cv <-}\StringTok{ }\KeywordTok{update}\NormalTok{(M2.model, }\DataTypeTok{data =}\NormalTok{ data_complete[train.ind,])}
+  \CommentTok{# out-of-sample residuals for both models}
+  \CommentTok{# that is, testing data - predictions with training parameters}
+\NormalTok{  M1.res <-}\StringTok{ }\NormalTok{data_complete}\OperatorTok{$}\NormalTok{wt[}\OperatorTok{-}\NormalTok{train.ind] }\OperatorTok{-}
+\StringTok{    }\KeywordTok{predict}\NormalTok{(M1.cv, }\DataTypeTok{newdata =}\NormalTok{ data_complete[}\OperatorTok{-}\NormalTok{train.ind, ])}
+\NormalTok{  M2.res <-}\StringTok{ }\NormalTok{data_complete}\OperatorTok{$}\NormalTok{wt[}\OperatorTok{-}\NormalTok{train.ind] }\OperatorTok{-}
+\StringTok{    }\KeywordTok{predict}\NormalTok{(M2.cv, }\DataTypeTok{newdata =}\NormalTok{ data_complete[}\OperatorTok{-}\NormalTok{train.ind, ])}
+  \CommentTok{# mean-square prediction errors}
+\NormalTok{  mspe1[ii] <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(M1.res }\OperatorTok{^}\StringTok{ }\DecValTok{2}\NormalTok{)}
+\NormalTok{  mspe2[ii] <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(M2.res }\OperatorTok{^}\StringTok{ }\DecValTok{2}\NormalTok{)}
+  \CommentTok{# out-of-sample likelihood ratio}
+\NormalTok{  M1.sigma <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{resid}\NormalTok{(M1.cv) }\OperatorTok{^}\StringTok{ }\DecValTok{2}\NormalTok{) }\OperatorTok{/}\StringTok{ }\NormalTok{ntrain) }\CommentTok{# MLE of sigma}
+\NormalTok{  M2.sigma <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{resid}\NormalTok{(M2.cv) }\OperatorTok{^}\StringTok{ }\DecValTok{2}\NormalTok{) }\OperatorTok{/}\StringTok{ }\NormalTok{ntrain)}
+  \CommentTok{# since res = y - pred, dnorm(y, pred, sd) = dnorm(res, 0, sd)}
+\NormalTok{  logLambda[ii] <-}
+\StringTok{    }\KeywordTok{sum}\NormalTok{(}\KeywordTok{dnorm}\NormalTok{(}
+\NormalTok{      M1.res,}
+      \DataTypeTok{mean =} \DecValTok{0}\NormalTok{,}
+      \DataTypeTok{sd =}\NormalTok{ M1.sigma,}
+      \DataTypeTok{log =} \OtherTok{TRUE}
+\NormalTok{    ))}
+\NormalTok{  logLambda[ii] <-}\StringTok{ }\NormalTok{logLambda[ii] }\OperatorTok{-}
+\StringTok{    }\KeywordTok{sum}\NormalTok{(}\KeywordTok{dnorm}\NormalTok{(}
+\NormalTok{      M2.res,}
+      \DataTypeTok{mean =} \DecValTok{0}\NormalTok{,}
+      \DataTypeTok{sd =}\NormalTok{ M2.sigma,}
+      \DataTypeTok{log =} \OtherTok{TRUE}
+\NormalTok{    ))}
+\NormalTok{\}}
+
+\CommentTok{# names of x axis for boxplot }
+\NormalTok{Mnames <-}\StringTok{ }\KeywordTok{expression}\NormalTok{(M[FWD],M[STEP])}
+
+\CommentTok{# Create boxplot}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{boxplot}\NormalTok{(}\KeywordTok{list}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(mspe1),}\KeywordTok{sqrt}\NormalTok{(mspe2)), }\DataTypeTok{names =}\NormalTok{ Mnames, }\DataTypeTok{ylab =} \KeywordTok{expression}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(MSPE)), }\DataTypeTok{cex =} \FloatTok{0.7}\NormalTok{, }\DataTypeTok{col=} \KeywordTok{c}\NormalTok{(}\StringTok{"springgreen4"}\NormalTok{,}\StringTok{"skyblue"}\NormalTok{), }\DataTypeTok{cex.axis =} \FloatTok{0.7}\NormalTok{, }\DataTypeTok{main =} \StringTok{"RMSPE"}\NormalTok{)}
+
+\CommentTok{# logLambda histgram}
+\KeywordTok{hist}\NormalTok{(logLambda, }\DataTypeTok{breaks =} \DecValTok{30}\NormalTok{, }\DataTypeTok{freq =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{xlab =} \KeywordTok{expression}\NormalTok{(Lambda}\OperatorTok{^}\NormalTok{\{test\}), }\DataTypeTok{cex=}\FloatTok{0.7}\NormalTok{,}
+     \DataTypeTok{main =} \StringTok{"log of Lambda"}\NormalTok{, }\DataTypeTok{col=}\StringTok{"gray93"}\NormalTok{, }\DataTypeTok{cex.axis =} \FloatTok{0.7}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v=}\KeywordTok{mean}\NormalTok{(logLambda),}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{E. Model Diagnostics}\label{e.-model-diagnostics}
+
+The following code looks at various residual plots for our two models.
+This code generates Figures 6-9.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# We looked at residual plots for all 5 imputations for both models, but noticed that}
+\NormalTok{## they were all very similar. As such, in the report and appendix we will only show }
+\NormalTok{## the plots generated for the 5th imputation. }
+
+\NormalTok{im <-}\StringTok{ }\DecValTok{5} \CommentTok{# let's just look at 5th imputation for both models}
+
+\CommentTok{# Residuals for stepwise model}
+\NormalTok{res.s <-}\StringTok{ }\KeywordTok{resid}\NormalTok{(fit.step}\OperatorTok{$}\NormalTok{analyses[[im]])}
+\NormalTok{h.s <-}\StringTok{ }\KeywordTok{hatvalues}\NormalTok{(fit.step}\OperatorTok{$}\NormalTok{analyses[[im]])}
+\NormalTok{res.stu.s <-}\StringTok{ }\NormalTok{res.s}\OperatorTok{/}\KeywordTok{sqrt}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{h.s) }\CommentTok{# studentized residuals}
+
+\CommentTok{# Residuals for forward model}
+\NormalTok{res.f <-}\StringTok{ }\KeywordTok{resid}\NormalTok{(fit.fwd}\OperatorTok{$}\NormalTok{analyses[[im]])}
+\NormalTok{h.f <-}\StringTok{ }\KeywordTok{hatvalues}\NormalTok{(fit.fwd}\OperatorTok{$}\NormalTok{analyses[[im]])}
+\NormalTok{res.stu.f <-}\StringTok{ }\NormalTok{res.f}\OperatorTok{/}\KeywordTok{sqrt}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{h.f) }\CommentTok{# studentized residuals}
+
+\CommentTok{# Plotting residual plots for stepwise model, similar code for forwards model}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(fit.step}\OperatorTok{$}\NormalTok{analyses[[im]],}\DataTypeTok{cex=}\FloatTok{0.6}\NormalTok{,}\DataTypeTok{col=}\KeywordTok{adjustcolor}\NormalTok{(}\StringTok{"skyblue4"}\NormalTok{,}\FloatTok{0.5}\NormalTok{),}
+     \DataTypeTok{cex.axis=}\FloatTok{0.7}\NormalTok{, }\DataTypeTok{pch=}\DecValTok{16}\NormalTok{)}
+
+\CommentTok{# Plotting standardized residuals to see distribution, similar code for forwards model}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\NormalTok{sigma.hat.s <-}\StringTok{ }\KeywordTok{sigma}\NormalTok{(fit.step}\OperatorTok{$}\NormalTok{ana[[im]]) }\CommentTok{# pull RSE of 5th imputation}
+
+\CommentTok{# Stepwise model studentized residual histogram}
+\KeywordTok{hist}\NormalTok{(res.stu.s}\OperatorTok{/}\NormalTok{sigma.hat.s,}\DataTypeTok{breaks=}\DecValTok{40}\NormalTok{,}\DataTypeTok{freq=}\OtherTok{FALSE}\NormalTok{,}\DataTypeTok{cex.axis=}\FloatTok{0.8}\NormalTok{, }
+     \DataTypeTok{main =} \StringTok{"Stepwise Model"}\NormalTok{, }\DataTypeTok{xlab=} \StringTok{"Studentized Residuals, standardized"}\NormalTok{)}
+\KeywordTok{curve}\NormalTok{(}\KeywordTok{dnorm}\NormalTok{(x),}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{,}\DataTypeTok{add=}\OtherTok{TRUE}\NormalTok{) }\CommentTok{# normal dist overlay}
+
+\CommentTok{# Create influence vs. leverage plot with each model on the same graph}
+\CommentTok{# Calculate measures of influence - Cook's distance for each model}
+\NormalTok{D.step <-}\StringTok{ }\KeywordTok{cooks.distance}\NormalTok{(fit.step}\OperatorTok{$}\NormalTok{analyses[[im]])}
+\NormalTok{D.fwd <-}\StringTok{ }\KeywordTok{cooks.distance}\NormalTok{(fit.fwd}\OperatorTok{$}\NormalTok{analyses[[im]])}
+\CommentTok{# Calculate diagonals of hat matrix to get leverage measures for each model}
+\NormalTok{h.step <-}\StringTok{ }\KeywordTok{hatvalues}\NormalTok{(fit.step}\OperatorTok{$}\NormalTok{analyses[[im]])}
+\NormalTok{h.fwd <-}\StringTok{ }\KeywordTok{hatvalues}\NormalTok{(fit.fwd}\OperatorTok{$}\NormalTok{analyses[[im]])}
+
+\NormalTok{inf <-}\StringTok{ }\KeywordTok{which.is.max}\NormalTok{(D.step) }\CommentTok{# pull index of highest influence observation }
+\NormalTok{lev <-}\StringTok{ }\KeywordTok{which.is.max}\NormalTok{(h.step) }\CommentTok{# pull index of highest leverage observation }
+
+
+\CommentTok{# Create scatterplot}
+\CommentTok{# First add red points for stepwise model}
+\KeywordTok{plot}\NormalTok{(h.step,D.step, }\DataTypeTok{col=}\KeywordTok{adjustcolor}\NormalTok{(}\StringTok{"firebrick"}\NormalTok{,}\FloatTok{0.5}\NormalTok{), }\DataTypeTok{pch=}\DecValTok{16}\NormalTok{, }
+     \DataTypeTok{main =} \StringTok{"Influence vs. Leverage Plot"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Leverage"}\NormalTok{, }
+     \DataTypeTok{ylab=} \StringTok{"Influence (Cook's Distance)"}\NormalTok{, }\DataTypeTok{cex.axis=}\FloatTok{0.8}\NormalTok{)}
+\CommentTok{# Now add blue points for forwards model}
+\KeywordTok{points}\NormalTok{(h.fwd,D.fwd,}\DataTypeTok{col=}\KeywordTok{adjustcolor}\NormalTok{(}\StringTok{"navyblue"}\NormalTok{,}\FloatTok{0.5}\NormalTok{),}\DataTypeTok{pch=}\DecValTok{18}\NormalTok{)}
+\CommentTok{# Throw in a legend }
+\KeywordTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{c}\NormalTok{(}\StringTok{"Stepwise"}\NormalTok{, }\StringTok{"Forward"}\NormalTok{), }\DataTypeTok{pch =} \KeywordTok{c}\NormalTok{(}\DecValTok{16}\NormalTok{,}\DecValTok{18}\NormalTok{),}
+       \DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\StringTok{"firebrick"}\NormalTok{,}\StringTok{"navyblue"}\NormalTok{))}
+\CommentTok{# Label highest influence point}
+\KeywordTok{text}\NormalTok{(}\DataTypeTok{x=}\NormalTok{h.step[inf], }\DataTypeTok{y =}\NormalTok{ D.step[inf],}
+     \DataTypeTok{labels =}\NormalTok{ inf, }\DataTypeTok{pos=}\DecValTok{1}\NormalTok{, }\DataTypeTok{cex =} \FloatTok{0.7}\NormalTok{, }\DataTypeTok{offs=}\FloatTok{0.4}\NormalTok{)}
+\CommentTok{# Label highest leverage point}
+\KeywordTok{text}\NormalTok{(}\DataTypeTok{x=}\NormalTok{h.step[lev], }\DataTypeTok{y =}\NormalTok{ D.step[lev],}
+     \DataTypeTok{labels =}\NormalTok{ lev, }\DataTypeTok{pos=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{), }\DataTypeTok{cex =} \FloatTok{0.7}\NormalTok{, }\DataTypeTok{offs=}\FloatTok{0.4}\NormalTok{)}
+
+\CommentTok{# Pulling out highest influence point observation to take a look at }
+\KeywordTok{complete}\NormalTok{(imp_all,}\DecValTok{5}\NormalTok{)[inf.ind,]}
+
+\CommentTok{# Pulling out highest leverage points observation to take a look at }
+\KeywordTok{complete}\NormalTok{(imp_all,}\DecValTok{5}\NormalTok{)[lev.ind,]}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{F. Final Model Tuning}\label{f.-final-model-tuning}
+
+First, we re-ran automatic stepwise selection on the data set with the
+outlier removed.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{)\{}
+\NormalTok{  compldata <-}\StringTok{ }\KeywordTok{complete}\NormalTok{(imp_all,i)[}\OperatorTok{-}\DecValTok{246}\NormalTok{,] }\CommentTok{# Completing data set over each imputation}
+\NormalTok{  M0.out <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(wt}\OperatorTok{~}\DecValTok{1}\NormalTok{,}\DataTypeTok{data=}\NormalTok{compldata) }\CommentTok{# minimal model: intercept only}
+  
+  \CommentTok{# all main effects and interactions}
+\NormalTok{  ##  Removed feth, meth, fed, med interactions because they produced NA's}
+\NormalTok{  Mmax.out <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(wt }\OperatorTok{~}\StringTok{ }\NormalTok{(.}\OperatorTok{-}\NormalTok{feth }\OperatorTok{-}\StringTok{ }\NormalTok{meth }\OperatorTok{-}\StringTok{ }\NormalTok{fed }\OperatorTok{-}\StringTok{ }\NormalTok{med)}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{feth }\OperatorTok{+}\StringTok{ }\NormalTok{meth }\OperatorTok{+}\StringTok{ }\NormalTok{fed }\OperatorTok{+}\StringTok{ }\NormalTok{med,}\DataTypeTok{data=}\NormalTok{compldata)}
+\NormalTok{  Mstart.out <-}\KeywordTok{lm}\NormalTok{(wt }\OperatorTok{~}\NormalTok{., }\DataTypeTok{data =}\NormalTok{ compldata) }\CommentTok{# starting model for stepwise}
+\NormalTok{  Mstep1 <-}\StringTok{ }\KeywordTok{step}\NormalTok{(}\DataTypeTok{object=}\NormalTok{ Mstart.out,}
+              \DataTypeTok{scope=}\KeywordTok{list}\NormalTok{(}\DataTypeTok{lower=}\NormalTok{M0.out, }\DataTypeTok{upper =}\NormalTok{ Mmax.out),}
+              \DataTypeTok{direction =}\StringTok{"both"}\NormalTok{,}
+              \DataTypeTok{trace=}\OtherTok{FALSE}\NormalTok{)}
+\NormalTok{  model <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"MsOut"}\NormalTok{,i, }\DataTypeTok{sep=}\StringTok{""}\NormalTok{) }\CommentTok{# dynamically name models with corresponding index}
+  \KeywordTok{assign}\NormalTok{(model,Mstep1)}
+  \KeywordTok{print}\NormalTok{(Mstep1}\OperatorTok{$}\NormalTok{call)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Then re-ran cross-validation on our tweaked stepwise model and the
+original one. The code belows shows the results of this, and how they
+turned out indistinguishable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{options}\NormalTok{(}\DataTypeTok{warn=}\OperatorTok{-}\DecValTok{1}\NormalTok{)}
+
+
+
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{331}\NormalTok{)}
+ \CommentTok{# Cross-validation setup}
+\NormalTok{ nreps <-}\StringTok{ }\DecValTok{1000} \CommentTok{# number of replications}
+\NormalTok{ ntot <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(birthsCompl) }\CommentTok{# total number of observations}
+\NormalTok{ ntrain <-}\StringTok{ }\FloatTok{0.8}\OperatorTok{*}\NormalTok{ntot }\CommentTok{# size of training set is 80% of total }
+\NormalTok{ ntest <-}\StringTok{ }\NormalTok{ntot }\OperatorTok{-}\StringTok{ }\NormalTok{ntrain }\CommentTok{# size of test set is 20% of total }
+\NormalTok{ mspe1 <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\OtherTok{NA}\NormalTok{, nreps) }\CommentTok{# sum-of-square errors for each CV replication}
+\NormalTok{ mspe2 <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\OtherTok{NA}\NormalTok{, nreps)}
+
+\NormalTok{ logLambda <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\OtherTok{NA}\NormalTok{, nreps) }\CommentTok{# log-likelihod ratio statistic for each replication}
+\NormalTok{ m <-}\DecValTok{5} \CommentTok{# number of imputations}
+ 
+
+ \ControlFlowTok{for}\NormalTok{ (ii }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{nreps) \{}
+   
+   \CommentTok{# randomly select training observations}
+\NormalTok{   sample.ind <-}\StringTok{ }\KeywordTok{sample}\NormalTok{(m,}\DecValTok{1}\NormalTok{) }\CommentTok{# randomly select which imputed data set to use}
+   
+\NormalTok{   M1.model <-}\StringTok{ }\NormalTok{fit.stepOut}\OperatorTok{$}\NormalTok{analyses[[sample.ind]]}
+\NormalTok{   M2.model <-}\StringTok{ }\NormalTok{fit.step}\OperatorTok{$}\NormalTok{analyses[[sample.ind]]}
+\NormalTok{   train.ind <-}\StringTok{ }\KeywordTok{sample}\NormalTok{(ntot, ntrain) }\CommentTok{# training observations}
+   \CommentTok{# refit the models on the given imputed data and training indices }
+\NormalTok{   data_complete <-}\StringTok{ }\KeywordTok{complete}\NormalTok{(imp_all,sample.ind)}
+\NormalTok{   M1.cv <-}\StringTok{ }\KeywordTok{update}\NormalTok{(M1.model, }\DataTypeTok{data =}\NormalTok{ data_complete[train.ind,])}
+\NormalTok{   M2.cv <-}\StringTok{ }\KeywordTok{update}\NormalTok{(M2.model, }\DataTypeTok{data =}\NormalTok{ data_complete[train.ind,])}
+   \CommentTok{# out-of-sample residuals for both models}
+   \CommentTok{# that is, testing data - predictions with training parameters}
+\NormalTok{   M1.res <-}\StringTok{ }\NormalTok{data_complete}\OperatorTok{$}\NormalTok{wt[}\OperatorTok{-}\NormalTok{train.ind] }\OperatorTok{-}
+\StringTok{     }\KeywordTok{predict}\NormalTok{(M1.cv, }\DataTypeTok{newdata =}\NormalTok{ data_complete[}\OperatorTok{-}\NormalTok{train.ind, ])}
+\NormalTok{   M2.res <-}\StringTok{ }\NormalTok{data_complete}\OperatorTok{$}\NormalTok{wt[}\OperatorTok{-}\NormalTok{train.ind] }\OperatorTok{-}
+\StringTok{     }\KeywordTok{predict}\NormalTok{(M2.cv, }\DataTypeTok{newdata =}\NormalTok{ data_complete[}\OperatorTok{-}\NormalTok{train.ind, ])}
+   \CommentTok{# mean-square prediction errors}
+\NormalTok{   mspe1[ii] <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(M1.res }\OperatorTok{^}\StringTok{ }\DecValTok{2}\NormalTok{)}
+\NormalTok{   mspe2[ii] <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(M2.res }\OperatorTok{^}\StringTok{ }\DecValTok{2}\NormalTok{)}
+   \CommentTok{# out-of-sample likelihood ratio}
+\NormalTok{   M1.sigma <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{resid}\NormalTok{(M1.cv) }\OperatorTok{^}\StringTok{ }\DecValTok{2}\NormalTok{) }\OperatorTok{/}\StringTok{ }\NormalTok{ntrain) }\CommentTok{# MLE of sigma}
+\NormalTok{   M2.sigma <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{(}\KeywordTok{resid}\NormalTok{(M2.cv) }\OperatorTok{^}\StringTok{ }\DecValTok{2}\NormalTok{) }\OperatorTok{/}\StringTok{ }\NormalTok{ntrain)}
+   \CommentTok{# since res = y - pred, dnorm(y, pred, sd) = dnorm(res, 0, sd)}
+\NormalTok{   logLambda[ii] <-}
+\StringTok{     }\KeywordTok{sum}\NormalTok{(}\KeywordTok{dnorm}\NormalTok{(}
+\NormalTok{       M1.res,}
+       \DataTypeTok{mean =} \DecValTok{0}\NormalTok{,}
+       \DataTypeTok{sd =}\NormalTok{ M1.sigma,}
+       \DataTypeTok{log =} \OtherTok{TRUE}
+\NormalTok{     ))}
+\NormalTok{   logLambda[ii] <-}\StringTok{ }\NormalTok{logLambda[ii] }\OperatorTok{-}
+\StringTok{     }\KeywordTok{sum}\NormalTok{(}\KeywordTok{dnorm}\NormalTok{(}
+\NormalTok{       M2.res,}
+       \DataTypeTok{mean =} \DecValTok{0}\NormalTok{,}
+       \DataTypeTok{sd =}\NormalTok{ M2.sigma,}
+       \DataTypeTok{log =} \OtherTok{TRUE}
+\NormalTok{     ))}
+\NormalTok{ \}}
+ 
+\CommentTok{# names for x axis of boxplot }
+\NormalTok{Mnames <-}\StringTok{ }\KeywordTok{expression}\NormalTok{(M[STEPout],M[STEP])}
+
+\CommentTok{# create boxplot}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{boxplot}\NormalTok{(}\KeywordTok{list}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(mspe1),}\KeywordTok{sqrt}\NormalTok{(mspe2)), }\DataTypeTok{names =}\NormalTok{ Mnames, }\DataTypeTok{ylab =} \KeywordTok{expression}\NormalTok{(}\KeywordTok{sqrt}\NormalTok{(MSPE)), }\DataTypeTok{cex =} \FloatTok{0.7}\NormalTok{, }\DataTypeTok{col=} \KeywordTok{c}\NormalTok{(}\StringTok{"springgreen4"}\NormalTok{,}\StringTok{"skyblue"}\NormalTok{), }\DataTypeTok{cex.axis =} \FloatTok{0.7}\NormalTok{, }\DataTypeTok{main =} \StringTok{"RMSPE"}\NormalTok{)}
+
+\CommentTok{# logLambda histogram}
+\KeywordTok{hist}\NormalTok{(logLambda, }\DataTypeTok{breaks =} \DecValTok{30}\NormalTok{, }\DataTypeTok{freq =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{xlab =} \KeywordTok{expression}\NormalTok{(Lambda}\OperatorTok{^}\NormalTok{\{test\}), }\DataTypeTok{cex=}\FloatTok{0.7}\NormalTok{,}
+     \DataTypeTok{main =} \StringTok{"log of Lambda"}\NormalTok{, }\DataTypeTok{col=}\StringTok{"gray93"}\NormalTok{, }\DataTypeTok{cex.axis =} \FloatTok{0.7}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v=}\KeywordTok{mean}\NormalTok{(logLambda),}\DataTypeTok{col=}\StringTok{"red"}\NormalTok{,}\DataTypeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_WriteUp_files/figure-latex/unnamed-chunk-30-1.pdf}
+
+\subsection{Bibliography}\label{bibliography}
+
+@journal\{LBWarticle1, title = ``The Effects Of Maternal Smoking,
+\ldots{}, On The Incidence Of Low Birth Weight'', author = ``Kleinmann,
+J and Madans, J.'', month = ``February'', year = ``2016'', url =
+``\url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.820.7552\&rep=rep1\&type=pdf}''
+\}
+
+@journal\{BWarticle2, title = ``Quantitative Data Analysis of Multiple
+Factors Associated with Low Birth Weight in Bibb County, Georgia'',
+author = ``Jackson, H., Wei, Y., Chen, F.'', year = \{2008\}, url =
+``\url{https://augusta.openrepository.com/augusta/bitstream/10675.2/610914/1/Jackson_2008_1_1.pdf}'',
+\}
+
+
+\end{document}

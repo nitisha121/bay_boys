@@ -1,0 +1,65 @@
+---
+title: "Cross Validation"
+author: "Nitisha Agarwal"
+date: "December 1, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Cross validation code:
+```{r}
+ # models to compare
+M1 <- Mf5
+M2 <- Ms5
+Mnames <- expression(M[FWD], M[STEP])
+ # Cross-validation setup
+ nreps <- 2e3 # number of replications
+ ntot <- nrow(births) # total number of observations
+ ntrain <- 0.8*ntot # size of training set is 80% of total 
+ ntest <- ntot - ntrain # size of test set is 20% of total 
+ mspe1 <- rep(NA, nreps) # sum-of-square errors for each CV replication
+ mspe2 <- rep(NA, nreps)
+ logLambda <- rep(NA, nreps) # log-likelihod ratio statistic for each replication
+ 
+system.time({
+  for (ii in 1:nreps) {
+    if (ii %% 400 == 0)
+      message("ii = ", ii)
+    # randomly select training observations
+    train.ind <- sample(ntot, ntrain) # training observations
+    # refit the models on the subset of training data; ?update for details!
+    M1.cv <- update(M1, subset = train.ind)
+    M2.cv <- update(M2, subset = train.ind)
+    # out-of-sample residuals for both models
+    # that is, testing data - predictions with training parameters
+    M1.res <- births$wt[-train.ind] -
+      predict(M1.cv, newdata = births[-train.ind, ])
+    M2.res <- births$wt[-train.ind] -
+      predict(M2.cv, newdata = births[-train.ind, ])
+    # mean-square prediction errors
+    mspe1[ii] <- mean(M1.res ^ 2)
+    mspe2[ii] <- mean(M2.res ^ 2)
+    # out-of-sample likelihood ratio
+    M1.sigma <- sqrt(sum(resid(M1.cv) ^ 2) / ntrain) # MLE of sigma
+    M2.sigma <- sqrt(sum(resid(M2.cv) ^ 2) / ntrain)
+    # since res = y - pred, dnorm(y, pred, sd) = dnorm(res, 0, sd)
+    logLambda[ii] <-
+      sum(dnorm(
+        M1.res,
+        mean = 0,
+        sd = M1.sigma,
+        log = TRUE
+      ))
+    logLambda[ii] <- logLambda[ii] -
+      sum(dnorm(
+        M2.res,
+        mean = 0,
+        sd = M2.sigma,
+        log = TRUE
+      ))
+  }
+})
+ ```
