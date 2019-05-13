@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Read in data:
 ```{r}
-chdbirths <- read.csv("C:/My data/university/third year/stat331/final_proj/male_births/chds_births.csv")
+chdbirths <- read.csv(".../male_births/chds_births.csv")
 
 # load mice
 library(mice)
